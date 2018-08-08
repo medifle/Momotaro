@@ -86,6 +86,7 @@ public class Player {
     /**
      * Moves a player from one location to a new location
      *
+     * // TODO: location or direction?
      * @param newLocation is the new location that the player will be moved to
      * @return true if the move was successful and false otherwise (e.g. when trying to move from one
      * location to another that are not connected)
