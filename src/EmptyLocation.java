@@ -15,11 +15,10 @@ public class EmptyLocation extends Location {
 
 
     /**
+     * TODO: different from exit()?
      * remove a player from a room
      */
     public void remove(Player p) {
         peopleAtLocation.remove(p);
     }
 }
-  
-    
