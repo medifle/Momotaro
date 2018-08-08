@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A Player in the game
@@ -14,18 +15,19 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
+    protected ArrayList<Location> knowledge; // locations of places (pit, grove, den)
 
     /**
      * Creates a player in the game
      *
-     * @param w    is the world that the player lives in
+     * @param world    is the world that the player lives in
      * @param name     is the name of the player
      * @param location is where in the world the player is
      * @param peaches  is a list of peaches the player starts with
      * @param health   is the health of the player (which may or may not be relevant in your game)
-     * @param rgb      is the colour of the player
+     * @param RGB      is the colour of the player
      */
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb) {
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, ArrayList<Location> knowledge) {
         this.world = w;
         this.name = name;
         this.location = location;
@@ -33,6 +35,7 @@ public class Player {
         this.peaches = peaches;
         this.health = health;
         this.colour = rgb;
+        this.knowledge = knowledge;
     }
 
     /**
@@ -72,6 +75,13 @@ public class Player {
 
 
     /**
+     * Getter for a player's knowledge
+     */
+    public ArrayList<Location> getKnowledge() {
+        return knowledge;
+    }
+
+    /**
      * This is the logic of the player.
      * It defines what they should do when given a chance to do somerthing
      */
@@ -80,13 +90,14 @@ public class Player {
             getHelp();
             return;
         }
+
+
     }
 
 
     /**
      * Moves a player from one location to a new location
      *
-     * // TODO: location or direction?
      * @param newLocation is the new location that the player will be moved to
      * @return true if the move was successful and false otherwise (e.g. when trying to move from one
      * location to another that are not connected)
@@ -124,6 +135,7 @@ public class Player {
      */
     public void interact(Player p) {
         // allows for some interaction with a player
+
     }
 
     /**
