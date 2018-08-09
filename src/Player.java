@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A Player in the game
@@ -14,6 +15,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
+    protected ArrayList<Location> knowledge; // locations of places (pit, grove, den)
 
     /**
      * Creates a player in the game
