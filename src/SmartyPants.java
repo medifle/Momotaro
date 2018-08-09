@@ -22,13 +22,14 @@ public class SmartyPants extends Player {
                 }
 
 
-                Location[] SmartyKnowledge = ArrayList.toArray(new Location[this.getKnowledge().size]);
-                Location[] otherKnowledge = ArrayList.toArray(new Location[p.getKnowledge().size]);
+                ArrayList<Location> smartyKnowledge = this.getKnowledge();
+                ArrayList<Location> otherKnowledge = p.getKnowledge();
+
                 //iterate knowledge to find PeachGrove
-                for (int i = 0; i < SmartyKnowledge.length; i++) {
-                    if (SmartyKnowledge[i].description == "PeachGrove") {
-                        if (!(otherKnowledge.contains(SmartyKnowledge[i]))) {
-                            otherKnowledge.add(SmartyKnowledge[i]);
+                for (int i = 0; i < smartyKnowledge.size(); i++) {
+                    if (smartyKnowledge.get(i).description == "PeachGrove") {
+                        if (!(otherKnowledge.contains(smartyKnowledge.get(i)))) {
+                            otherKnowledge.add(smartyKnowledge.get(i));
                         }
                     }
                 }
@@ -36,6 +37,26 @@ public class SmartyPants extends Player {
 
 
         } else if (p.name == "PitFinder") {
+            if (p.peaches.size() >= 6) {
+                // transfer peaches
+                while (count < p.peaches.size()) {
+                    this.peaches.add(p.getPeach());
+                    count += 1;
+                }
+
+
+                ArrayList<Location> smartyKnowledge = this.getKnowledge();
+                ArrayList<Location> otherKnowledge = p.getKnowledge();
+
+                //iterate knowledge to find PeachGrove
+                for (int i = 0; i < smartyKnowledge.size(); i++) {
+                    if (smartyKnowledge.get(i).description == "PeachPit") {
+                        if (!(otherKnowledge.contains(smartyKnowledge.get(i)))) {
+                            otherKnowledge.add(smartyKnowledge.get(i));
+                        }
+                    }
+                }
+            }
 
         } else if (p.name == "PeachThief") {
             while (count < p.peaches.size()) {
@@ -44,5 +65,7 @@ public class SmartyPants extends Player {
             }
 
         }
+
     }
+
 }

@@ -20,12 +20,12 @@ public class Player {
     /**
      * Creates a player in the game
      *
-     * @param world    is the world that the player lives in
+     * @param w    is the world that the player lives in
      * @param name     is the name of the player
      * @param location is where in the world the player is
      * @param peaches  is a list of peaches the player starts with
      * @param health   is the health of the player (which may or may not be relevant in your game)
-     * @param RGB      is the colour of the player
+     * @param rgb      is the colour of the player
      */
     public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, ArrayList<Location> knowledge) {
         this.world = w;
