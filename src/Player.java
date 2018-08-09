@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -82,6 +83,12 @@ public class Player {
     }
 
     /**
+     * Setter for a player's knowledge
+     */
+    public void setKnowledge(ArrayList<Location> knowledge) {
+        this.knowledge =  knowledge;
+    }
+    /**
      * This is the logic of the player.
      * It defines what they should do when given a chance to do somerthing
      *
@@ -93,6 +100,7 @@ public class Player {
             getHelp();
             return;
         }
+
 
 
     }
