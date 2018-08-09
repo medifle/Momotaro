@@ -75,7 +75,7 @@ public class Player {
 
     /**
      * This is the logic of the player.
-     * It defines what they should do when given a chance to do somerthing
+     * It defines what they should do when given a chance to do something
      */
     public void play() {
         if (health < 10) {
@@ -132,7 +132,7 @@ public class Player {
      * ask for help when they need it
      */
     public void getHelp() {
-        world.getHome().callForHelp(this, location);
+        world.getHome().callForHelp(this, location, world);
     }
 
     @Override
