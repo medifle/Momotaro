@@ -84,6 +84,9 @@ public class Player {
     /**
      * This is the logic of the player.
      * It defines what they should do when given a chance to do somerthing
+     *
+     *
+     * overridden play method should at least call move
      */
     public void play() {
         if (health < 10) {

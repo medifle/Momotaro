@@ -12,8 +12,6 @@ public class BearsDen extends Location {
     }
 
     public void bear(Player p) {
-        // 1) enter people in the room
-        this.enter(p);
 
         // 2) player gives 2 peaches
         //check if the person is in the list of people who gave peaches previously
@@ -31,8 +29,7 @@ public class BearsDen extends Location {
             //remember who gave peaches
             peopleGavePeaches.add(p);
         }
-        // last) exit people from the room
-        this.exit(p);
+
     }
 
 
