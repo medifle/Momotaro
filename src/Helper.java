@@ -12,13 +12,26 @@ public class Helper extends Player {
 
     @Override
     public void play() {
+        System.out.println("Helper start playing...");
         // TODO: move one step
+
         interact(target);
+
     }
 
     @Override
     public void interact(Player p) {
-
+        // Search for target at current location, then give it all peaches
+        for (Player player : location.getPlayers()) {
+            if (player.equals(target)) {
+                int count = 0;
+                while (this.peaches.size() > 0) {
+                    player.receivePeach(this);
+                    count += 1;
+                }
+                System.out.println(p.getName() + " received " + count + " peaches from " + getName());
+            }
+        }
     }
 
 }

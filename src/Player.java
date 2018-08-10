@@ -68,9 +68,14 @@ public class Player {
      * Getter for a player's health
      */
     public int getHealth() {
+        System.out.println(getName() + " health: " + health);
         return health;
     }
 
+
+    protected void checkPeaches() {
+        System.out.println(this.peaches);
+    }
 
     /**
      * This is the logic of the player.
@@ -90,6 +95,8 @@ public class Player {
      * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
+        // TODO: check outOfBound
+
         // move from current location to new location (if possible)
         world.move(this, direction);
         return false;
@@ -111,6 +118,29 @@ public class Player {
      */
     public void setHealth(int h) {
         this.health = h;
+        System.out.println(this + " health: " + this.getHealth());
+    }
+
+
+    // Receive a peach from another player
+    protected boolean receivePeach(Player p) {
+        if (p.peaches.size() > 0) {
+            boolean result = peaches.add(p.getPeach());
+//            System.out.println(getName() + " received a peach from " + p.getName() + ": " + result);
+            return result;
+        }
+        return false;
+    }
+
+
+    // Pick a peach from location
+    protected boolean pickPeach() {
+        if (location.peachesAtLocation.size() > 0) {
+            boolean result = peaches.add(location.getPeach());
+            System.out.println(getName() + " picked a peach from " + location + ": " + result);
+            return result;
+        }
+        return false;
     }
 
 
