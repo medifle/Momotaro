@@ -14,6 +14,7 @@ public class PeachHunter extends Player {
         super.play();
         // TODO: Call move method
 
+        // Remember or forget PeachGrove location
         if (location instanceof PeachGrove) {
             if (location.peachesAtLocation.size() > 0) {
                 addPeachGrove();
@@ -23,15 +24,6 @@ public class PeachHunter extends Player {
         }
     }
 
-    protected boolean addPeach() {
-        // TODO: how many peaches would he add one time?
-        if (location instanceof PeachGrove && location.peachesAtLocation.size() > 0) {
-            boolean result = peaches.add(location.getPeach());
-            System.out.println("PeachHunter added a peach from " + location + ": " + result);
-            return result;
-        }
-        return false;
-    }
 
     protected boolean addPeachGrove() {
         boolean result = groveKnowledge.add(location);
