@@ -15,7 +15,6 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-    protected ArrayList<Location> knowledge; // locations of places (pit, grove, den)
 
     /**
      * Creates a player in the game
@@ -31,7 +30,7 @@ public class Player {
         this.world = w;
         this.name = name;
         this.location = location;
-        location.getPlayers().add(this);
+        location.getPlayers().add(this); // Make sure player can be born in Home
         this.peaches = peaches;
         this.health = health;
         this.colour = rgb;
@@ -75,7 +74,7 @@ public class Player {
 
     /**
      * This is the logic of the player.
-     * It defines what they should do when given a chance to do somerthing
+     * It defines what they should do when given a chance to do something
      */
     public void play() {
         if (health < 10) {
@@ -84,14 +83,11 @@ public class Player {
         }
     }
 
-
     /**
-     * Moves a player from one location to a new location
+     * Move a player one step to the direction
      *
-     * // TODO: location or direction?
-     * @param newLocation is the new location that the player will be moved to
-     * @return true if the move was successful and false otherwise (e.g. when trying to move from one
-     * location to another that are not connected)
+     * @param direction the direction the player moves
+     * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
         // move from current location to new location (if possible)
@@ -132,7 +128,7 @@ public class Player {
      * ask for help when they need it
      */
     public void getHelp() {
-        world.getHome().callForHelp(this, location);
+        world.getHome().callForHelp(this, location, world);
     }
 
     @Override

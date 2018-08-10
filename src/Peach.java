@@ -22,6 +22,11 @@ public class Peach implements Comparable<Peach> {
     }
 
     @Override
+    public String toString() {
+        return ripeness + "(" + bad + ")";
+    }
+
+    @Override
     public int compareTo(Peach other) {
         return 0;
     }
