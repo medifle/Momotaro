@@ -76,7 +76,7 @@ public class Location {
     }
 
     /* ONLY for Home subclass */
-    public void callForHelp(Player p, Location location) {
+    public void callForHelp(Player p, Location targetLocation, World world) {
     }
 
     @Override
