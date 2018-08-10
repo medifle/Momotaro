@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class PeachesGame {
     public static void main(String[] args) {
         World w = new World();
-        Player p = new Player(w, "cat", w.home, new ArrayList<Peach>(), 50, RGB.YELLOW);
-        Player q = new Player(w, "dog", w.home, new ArrayList<Peach>(), 100, RGB.BLUE);
+        Player p = new Player(w, "cat", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW);
+        Player q = new Player(w, "dog", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
         w.addPlayer(p).addPlayer(q);
 
         System.out.println("Home : " + w.getHome());
