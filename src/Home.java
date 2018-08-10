@@ -57,12 +57,7 @@ public final class Home extends Location {
         }
     }
 
-    // TODO: keeps track of how many peaches each player brings back.
-    // know peopleAtLocation
-    // may use HashMap
-
-
-    // Test Home
+    // Test: Home
     public static void main(String[] args) {
         World w = new World();
         PitFinder pitFinder = new PitFinder(w, "PitFinder", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW);
@@ -70,25 +65,26 @@ public final class Home extends Location {
         PeachHunter peachHunter_js = new PeachHunter(w, "PeachHunter_js", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
         w.addPlayer(pitFinder).addPlayer(peachHunter).addPlayer(peachHunter_js);
 
-//        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-//        for (int i = 0; i < 10; i++) {
-//            testPit.addPeach(new Peach(5));
-//        }
-//        w.locations[1][1] = testPit;
-//        w.move(pitFinder, Directions.DOWN);
-//        w.move(pitFinder, Directions.RIGHT);
-//        pitFinder.addPit();
-//        w.move(pitFinder, Directions.UP);
-//        w.move(pitFinder, Directions.LEFT);
-//        System.out.println(((Home) w.getHome()).pitLog);
-//
+        // Test: pitFinder enters home, report pit location
+        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        for (int i = 0; i < 10; i++) {
+            testPit.addPeach(new Peach(5));
+        }
+        w.locations[1][1] = testPit;
+        w.move(pitFinder, Directions.DOWN);
+        w.move(pitFinder, Directions.RIGHT);
+        pitFinder.addPit();
+        w.move(pitFinder, Directions.UP);
+        w.move(pitFinder, Directions.LEFT);
+        System.out.println(((Home) w.getHome()).pitLog);
+
         PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
         w.locations[0][1] = testGrove;
         for (int i = 0; i < 10; i++) {
             testGrove.addPeach(new Peach(8));
         }
 
-        // peachHunter start moving
+        // Test: peachHunter start moving
         w.move(peachHunter, Directions.RIGHT);
         peachHunter.addPeach();
         peachHunter.addPeach();
@@ -98,7 +94,7 @@ public final class Home extends Location {
         System.out.println("peaches in peachHunter: " + peachHunter.peaches);
         System.out.println("peachMap : " + ((Home) w.getHome()).peachMap);
 
-        // peachHunter_js start moving
+        // Test: peachHunter_js start moving
         w.move(peachHunter_js, Directions.RIGHT);
         peachHunter_js.addPeach();
         peachHunter_js.addPeach();
