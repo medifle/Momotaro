@@ -30,7 +30,7 @@ public class Player {
         this.world = w;
         this.name = name;
         this.location = location;
-        location.getPlayers().add(this);
+        location.getPlayers().add(this); // Make sure player can be born in Home
         this.peaches = peaches;
         this.health = health;
         this.colour = rgb;

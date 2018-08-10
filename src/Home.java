@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public final class Home extends Location {
     protected HashSet<Location> pitLog; // locations of pit
+    protected HashMap<Player, Integer> peachMap;
 
     // Constructs a Home with empty players and peaches
     public Home() {
@@ -30,18 +31,18 @@ public final class Home extends Location {
         Helper helper = new Helper(p, targetLocation, world, peaches);
     }
 
-    // When PitFinder enter home, report the pit location to Home
     @Override
     public void enter(Player p) {
         super.enter(p);
-        // When PeachHunter enter home, deposit all peaches
+        // When PeachHunter enters home, deposits all peaches
         if (p instanceof PeachHunter) {
-            for (Peach peach : p.peaches) {
-                addPeach(peach);
+            while (p.peaches.size() > 0) {
+                addPeach(p.getPeach());
             }
+            System.out.println("PeachHunter deposited all the peaches");
         }
 
-        // When PitFinder enter home, report pit location
+        // When PitFinder enters home, reports pit location
         if (p instanceof PitFinder) {
             for (Location pit : ((PitFinder) p).pitKnowledge) {
                 if (!pitLog.contains(pit)) {
@@ -65,18 +66,18 @@ public final class Home extends Location {
         PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
         w.addPlayer(pitFinder).addPlayer(peachHunter);
 
-        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-        for (int i = 0; i < 10; i++) {
-            testPit.addPeach(new Peach(5));
-        }
-        w.locations[1][1] = testPit;
-        w.move(pitFinder, Directions.DOWN);
-        w.move(pitFinder, Directions.RIGHT);
-        pitFinder.addPit();
-        w.move(pitFinder, Directions.UP);
-        w.move(pitFinder, Directions.LEFT);
-        System.out.println(((Home) w.getHome()).pitLog);
-
+//        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+//        for (int i = 0; i < 10; i++) {
+//            testPit.addPeach(new Peach(5));
+//        }
+//        w.locations[1][1] = testPit;
+//        w.move(pitFinder, Directions.DOWN);
+//        w.move(pitFinder, Directions.RIGHT);
+//        pitFinder.addPit();
+//        w.move(pitFinder, Directions.UP);
+//        w.move(pitFinder, Directions.LEFT);
+//        System.out.println(((Home) w.getHome()).pitLog);
+//
         PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
         w.locations[0][1] = testGrove;
         w.move(peachHunter, Directions.RIGHT);
@@ -85,7 +86,10 @@ public final class Home extends Location {
         }
         peachHunter.addPeach();
         peachHunter.addPeach();
+        System.out.println("peaches left at peachGrove: " + peachHunter.location.peachesAtLocation);
         w.move(peachHunter, Directions.LEFT);
-        System.out.println(((Home) w.getHome()).peachesAtLocation);
+        System.out.println("peaches at Home: " + ((Home) w.getHome()).peachesAtLocation);
+        System.out.println("peaches in peachHunter: " + peachHunter.peaches);
+
     }
 }
