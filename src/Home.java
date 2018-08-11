@@ -95,8 +95,8 @@ public final class Home extends Location {
             testPit.addPeach(new Peach(5));
         }
 
-        PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-        w.locations[0][1] = testGrove;
+        PeachGrove testGrove = new PeachGrove(new Position(2, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        w.locations[2][1] = testGrove;
         for (int i = 0; i < 10; i++) {
             testGrove.addPeach(new Peach(8));
         }
@@ -137,6 +137,8 @@ public final class Home extends Location {
 
         // Test: peachHunter calls for help
         peachHunter.move(Directions.RIGHT);
+        peachHunter.move(Directions.DOWN);
+        peachHunter.move(Directions.DOWN);
         peachHunter.pickPeach();
         peachHunter.pickPeach();
         peachHunter.pickPeach();
@@ -156,19 +158,22 @@ public final class Home extends Location {
             e.printStackTrace();
             System.out.println("Helper does not exist.");
         }
-        helper.move(Directions.RIGHT);
         helper.play();
-        peachHunter.getHealth();
+        helper.play();
+
+        peachHunter.getHealth(); // TODO: eat a peach to restore HP in one turn
         peachHunter.checkPeaches();
 
         // Test: move
         // outOfBounds check
-        w.addPlayer(peachHunter);
-        peachHunter.move(Directions.RIGHT);
-        System.out.println(peachHunter.location);
-        peachHunter.move(Directions.RIGHT);
-        System.out.println(peachHunter.location);
-        peachHunter.move(Directions.RIGHT);
-        System.out.println(peachHunter.location);
+//        w.addPlayer(peachHunter);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+
+
     }
 }
