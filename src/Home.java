@@ -22,26 +22,28 @@ public final class Home extends Location {
 
     @Override
     public void callForHelp(Player p, Location targetLocation, World world) {
-        System.out.println(p + " at " + targetLocation + " called for help");
-        // Get peaches from Home
-        int peachNum = 4;
-        ArrayList<Peach> peaches = new ArrayList<>();
-        for (int i = 0; i < peachNum; i++) {
-            if (this.peachesAtLocation.size() > 0) {
-                peaches.add(getPeach());
-            } else {
-                System.out.println("Home does not have enough peaches!");
-                break;
-            }
-        }
-        // Create a Helper if it can get at least one peach
-        if (peaches.size() > 0) {
-            Helper helper = new Helper(p, targetLocation, world, peaches);
-            return;
-        }
+        System.out.println(p + " (HP:" + p.health + ")" + " at " + targetLocation + " called for help");
 
-        System.out.println("Helper can not get a peach from Home, Helper not created");
-        return;
+        // Create a Helper if it can get at least one peach
+        if (numberOfPeaches() > 0) {
+            Helper helper = new Helper(p, targetLocation, world, new ArrayList<>());
+            System.out.println(this + " : a " + helper + " is born");
+
+            // Helper gets peaches from Home
+            int peachNum = 4;
+            int peachCount = 0;
+            for (int i = 0; i < peachNum; i++) {
+                if (helper.pickPeach()) {
+                    peachCount += 1;
+                }
+            }
+            System.out.println(this + ": " + helper + " picked " + peachCount + " peaches");
+            if (this.numberOfPeaches() == 0) {
+                System.out.println(this + ": no peaches left");
+            }
+        } else {
+            System.out.println(this + ": no peaches left, Helper is not born");
+        }
     }
 
 
@@ -88,13 +90,20 @@ public final class Home extends Location {
         PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
         PeachHunter peachHunter_js = new PeachHunter(w, "PeachHunter_js", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
 
+        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        for (int i = 0; i < 10; i++) {
+            testPit.addPeach(new Peach(5));
+        }
+
+        PeachGrove testGrove = new PeachGrove(new Position(2, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        w.locations[2][1] = testGrove;
+        for (int i = 0; i < 10; i++) {
+            testGrove.addPeach(new Peach(8));
+        }
 
 //        // Test: pitFinder enters home, report pit location
 //        w.addPlayer(pitFinder);
-//        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-//        for (int i = 0; i < 10; i++) {
-//            testPit.addPeach(new Peach(5));
-//        }
+
 //        w.locations[1][1] = testPit;
 //        pitFinder.move(Directions.DOWN);
 //        pitFinder.move(Directions.RIGHT);
@@ -102,13 +111,7 @@ public final class Home extends Location {
 //        pitFinder.move(Directions.UP);
 //        pitFinder.move(Directions.LEFT);
 //        System.out.println(((Home) w.getHome()).pitLog);
-//
-        PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-        w.locations[0][1] = testGrove;
-        for (int i = 0; i < 10; i++) {
-            testGrove.addPeach(new Peach(8));
-        }
-//
+
 //        // Test: peachHunter starts moving
 //        w.addPlayer(peachHunter);
 //        peachHunter.move(Directions.RIGHT);
@@ -134,6 +137,8 @@ public final class Home extends Location {
 
         // Test: peachHunter calls for help
         peachHunter.move(Directions.RIGHT);
+        peachHunter.move(Directions.DOWN);
+        peachHunter.move(Directions.DOWN);
         peachHunter.pickPeach();
         peachHunter.pickPeach();
         peachHunter.pickPeach();
@@ -145,18 +150,39 @@ public final class Home extends Location {
         }
 
         peachHunter.play();
-
-        Player helper = ((Home)w.getHome()).selectHelper();
+        Player helper = ((Home) w.getHome()).selectHelper();
 
         try {
             helper.play();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            System.out.println("Helper is not created.");
+            System.out.println("Helper does not exist.");
         }
-        helper.move(Directions.RIGHT);
         helper.play();
-        peachHunter.getHealth();
+        helper.play();
+
+        peachHunter.getHealth(); // TODO: eat a peach to restore HP in one turn
         peachHunter.checkPeaches();
+
+        // Helper should go towards home from now
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.checkPeaches();
+        System.out.println(helper.getLocation());
+
+        // Test: move
+        // outOfBounds check
+//        w.addPlayer(peachHunter);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+//        peachHunter.move(Directions.RIGHT);
+//        System.out.println(peachHunter.location);
+
+
     }
 }
