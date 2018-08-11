@@ -16,7 +16,7 @@ public class PeachHunter extends Player {
 
         // Remember or forget PeachGrove location
         if (location instanceof PeachGrove) {
-            if (location.peachesAtLocation.size() > 0) {
+            if (location.numberOfPeaches() > 0) {
                 addPeachGrove();
             } else {
                 removePeachGrove();
@@ -27,13 +27,13 @@ public class PeachHunter extends Player {
 
     protected boolean addPeachGrove() {
         boolean result = groveKnowledge.add(location);
-        System.out.println("PeachGrove detected, added to grove knowledge: " + result);
+        System.out.println(getName() + ": " + location + " detected, added to my grove knowledge: " + result);
         return result;
     }
 
     protected boolean removePeachGrove() {
         boolean result = groveKnowledge.remove(location);
-        System.out.println("PeachGrove runs out of peaches, removed from grove knowledge" + result);
+        System.out.println(getName() + ": " + location + " runs out of peaches, removed from my grove knowledge" + result);
         return result;
     }
 }

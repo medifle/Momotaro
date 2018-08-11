@@ -22,26 +22,28 @@ public final class Home extends Location {
 
     @Override
     public void callForHelp(Player p, Location targetLocation, World world) {
-        System.out.println(p + " at " + targetLocation + " called for help");
-        // Get peaches from Home
-        int peachNum = 4;
-        ArrayList<Peach> peaches = new ArrayList<>();
-        for (int i = 0; i < peachNum; i++) {
-            if (this.peachesAtLocation.size() > 0) {
-                peaches.add(getPeach());
-            } else {
-                System.out.println("Home does not have enough peaches!");
-                break;
-            }
-        }
-        // Create a Helper if it can get at least one peach
-        if (peaches.size() > 0) {
-            Helper helper = new Helper(p, targetLocation, world, peaches);
-            return;
-        }
+        System.out.println(p + " (HP:" + p.health + ")" + " at " + targetLocation + " called for help");
 
-        System.out.println("Helper can not get a peach from Home, Helper not created");
-        return;
+        // Create a Helper if it can get at least one peach
+        if (numberOfPeaches() > 0) {
+            Helper helper = new Helper(p, targetLocation, world, new ArrayList<>());
+            System.out.println(this + " : a " + helper + " is born");
+
+            // Helper gets peaches from Home
+            int peachNum = 4;
+            int peachCount = 0;
+            for (int i = 0; i < peachNum; i++) {
+                if (helper.pickPeach()) {
+                    peachCount += 1;
+                }
+            }
+            System.out.println(this + ": " + helper + " picked " + peachCount + " peaches");
+            if (this.numberOfPeaches() == 0) {
+                System.out.println(this + ": no peaches left");
+            }
+        } else {
+            System.out.println(this + ": no peaches left, Helper is not born");
+        }
     }
 
 
@@ -147,13 +149,13 @@ public final class Home extends Location {
 
         peachHunter.play();
 
-        Player helper = ((Home)w.getHome()).selectHelper();
+        Player helper = ((Home) w.getHome()).selectHelper();
 
         try {
             helper.play();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            System.out.println("Helper is not created.");
+            System.out.println("Helper does not exist.");
         }
         helper.move(Directions.RIGHT);
         helper.play();
@@ -162,9 +164,9 @@ public final class Home extends Location {
 
         // Test: move
         // outOfBound
-        w.addPlayer(peachHunter);
-        System.out.println(peachHunter.move(Directions.RIGHT));
-        System.out.println(peachHunter.move(Directions.RIGHT));
-        System.out.println(peachHunter.location);
+//        w.addPlayer(peachHunter);
+//        System.out.println(peachHunter.move(Directions.RIGHT));
+//        System.out.println(peachHunter.move(Directions.RIGHT));
+//        System.out.println(peachHunter.location);
     }
 }

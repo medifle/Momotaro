@@ -95,11 +95,8 @@ public class Player {
      * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
-        // TODO: check outOfBound
 
-        // move from current location to new location (if possible)
-        world.move(this, direction);
-        return false;
+        return world.move(this, direction);
     }
 
     /**
@@ -117,8 +114,9 @@ public class Player {
      * @param h is the new health of the player
      */
     public void setHealth(int h) {
-        this.health = h;
-        System.out.println(this + " health: " + this.getHealth());
+        int oldHealth = health;
+        health = h;
+        System.out.println(this + " health set from " + oldHealth + " to " + this.health);
     }
 
 
@@ -135,12 +133,14 @@ public class Player {
 
     // Pick a peach from location
     protected boolean pickPeach() {
-        if (location.peachesAtLocation.size() > 0) {
+        if (location.numberOfPeaches() > 0) {
             boolean result = peaches.add(location.getPeach());
-            System.out.println(getName() + " picked a peach from " + location + ": " + result);
+//            System.out.println(getName() + " picked a peach from " + location + ": " + result);
             return result;
+        } else {
+//            System.out.println(this.location + ": Not enough peaches!");
+            return false;
         }
-        return false;
     }
 
 

@@ -12,12 +12,13 @@ public class Helper extends Player {
 
     @Override
     public void play() {
-        System.out.println("Helper start playing...");
         // TODO: move one step
 
         interact(target);
 
     }
+
+
 
     @Override
     public void interact(Player p) {
