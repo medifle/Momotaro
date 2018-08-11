@@ -88,13 +88,20 @@ public final class Home extends Location {
         PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
         PeachHunter peachHunter_js = new PeachHunter(w, "PeachHunter_js", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
 
+        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        for (int i = 0; i < 10; i++) {
+            testPit.addPeach(new Peach(5));
+        }
+
+        PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+        w.locations[0][1] = testGrove;
+        for (int i = 0; i < 10; i++) {
+            testGrove.addPeach(new Peach(8));
+        }
 
 //        // Test: pitFinder enters home, report pit location
 //        w.addPlayer(pitFinder);
-//        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-//        for (int i = 0; i < 10; i++) {
-//            testPit.addPeach(new Peach(5));
-//        }
+
 //        w.locations[1][1] = testPit;
 //        pitFinder.move(Directions.DOWN);
 //        pitFinder.move(Directions.RIGHT);
@@ -102,13 +109,7 @@ public final class Home extends Location {
 //        pitFinder.move(Directions.UP);
 //        pitFinder.move(Directions.LEFT);
 //        System.out.println(((Home) w.getHome()).pitLog);
-//
-        PeachGrove testGrove = new PeachGrove(new Position(0, 1), new ArrayList<Player>(), new ArrayList<Peach>());
-        w.locations[0][1] = testGrove;
-        for (int i = 0; i < 10; i++) {
-            testGrove.addPeach(new Peach(8));
-        }
-//
+
 //        // Test: peachHunter starts moving
 //        w.addPlayer(peachHunter);
 //        peachHunter.move(Directions.RIGHT);
@@ -158,5 +159,12 @@ public final class Home extends Location {
         helper.play();
         peachHunter.getHealth();
         peachHunter.checkPeaches();
+
+        // Test: move
+        // outOfBound
+        w.addPlayer(peachHunter);
+        System.out.println(peachHunter.move(Directions.RIGHT));
+        System.out.println(peachHunter.move(Directions.RIGHT));
+        System.out.println(peachHunter.location);
     }
 }
