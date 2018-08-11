@@ -148,7 +148,6 @@ public final class Home extends Location {
         }
 
         peachHunter.play();
-
         Player helper = ((Home) w.getHome()).selectHelper();
 
         try {
@@ -163,10 +162,13 @@ public final class Home extends Location {
         peachHunter.checkPeaches();
 
         // Test: move
-        // outOfBound
-//        w.addPlayer(peachHunter);
-//        System.out.println(peachHunter.move(Directions.RIGHT));
-//        System.out.println(peachHunter.move(Directions.RIGHT));
-//        System.out.println(peachHunter.location);
+        // outOfBounds check
+        w.addPlayer(peachHunter);
+        peachHunter.move(Directions.RIGHT);
+        System.out.println(peachHunter.location);
+        peachHunter.move(Directions.RIGHT);
+        System.out.println(peachHunter.location);
+        peachHunter.move(Directions.RIGHT);
+        System.out.println(peachHunter.location);
     }
 }
