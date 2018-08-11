@@ -5,6 +5,7 @@ import java.util.Random;
 public class Helper extends Player {
     protected Player target;
     protected Location targetLocation;
+    protected boolean hasHelped;
 
     public Helper(Player target, Location targetLocation, World world, List<Peach> peaches) {
         super(world, "Helper", world.getHome(), peaches, 100, RGB.GREEN);
@@ -14,13 +15,20 @@ public class Helper extends Player {
 
     @Override
     public void play() {
-        moveToTarget(target);
-        interact(target);
+        // If Helper has not help target out
+        if (!hasHelped) {
+            moveToTarget(target);
+            interact(target);
+            // After help, go back Home
+        } else {
+            backHome();
+        }
+
     }
 
-    protected void moveToTarget(Player target) {
-        int target_X = target.getLocation().getPosition().getX();
-        int target_Y = target.getLocation().getPosition().getY();
+    protected void moveToTarget(Location targetLocation) {
+        int target_X = targetLocation.getPosition().getX();
+        int target_Y = targetLocation.getPosition().getY();
         int helper_X = location.getPosition().getX();
         int helper_Y = location.getPosition().getY();
 
@@ -53,7 +61,24 @@ public class Helper extends Player {
         }
     }
 
+    /**
+     * Move to the target location
+     *
+     * @param target the Player who called for help
+     */
+    protected void moveToTarget(Player target) {
+        moveToTarget(target.getLocation());
+    }
 
+
+    /**
+     * Go back Home
+     */
+    protected void backHome() {
+        moveToTarget(world.getHome());
+    }
+
+    // If found target at current location, give peaches to target
     @Override
     public void interact(Player p) {
         // Search for target at current location, then give it all peaches
@@ -65,6 +90,7 @@ public class Helper extends Player {
                     count += 1;
                 }
                 System.out.println(p.getName() + " received " + count + " peaches from " + getName());
+                hasHelped = true;
             }
         }
     }

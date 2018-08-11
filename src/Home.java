@@ -164,6 +164,15 @@ public final class Home extends Location {
         peachHunter.getHealth(); // TODO: eat a peach to restore HP in one turn
         peachHunter.checkPeaches();
 
+        // Helper should go towards home from now
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.play();
+        helper.checkPeaches();
+        System.out.println(helper.getLocation());
+
         // Test: move
         // outOfBounds check
 //        w.addPlayer(peachHunter);
