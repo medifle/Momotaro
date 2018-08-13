@@ -119,6 +119,8 @@ public class SmartyPants extends Player {
                         break;
                     }
                 }
+            }else{
+                System.out.println("No transaction made! PeachHunter did not have enough peaches");
             }
 
 
@@ -152,6 +154,8 @@ public class SmartyPants extends Player {
                         break;
                     }
                 }
+            }else{
+                System.out.println("No transaction made! PitFinder did not have enough peaches");
             }
 
         } else if (p.name == "PeachThief") {

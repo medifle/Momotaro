@@ -42,7 +42,7 @@ public class BearsDen extends Location {
         bear(p);
     }
 
-    /*
+
     // Test: BearsDen
     public static void main(String[] args) {
         World w = new World();
@@ -65,7 +65,8 @@ public class BearsDen extends Location {
             System.out.println(pp.getLocation().getPlayers());
             System.out.println(pp.getHealth());
         }
+
     }
-    */
+
 
 } 
