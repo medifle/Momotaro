@@ -1,12 +1,10 @@
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PitFinder extends Player {
-    protected HashSet<Location> pitKnowledge; // locations of pit
 
-    public PitFinder(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb) {
-        super(w, name, location, peaches, health, rgb);
-        this.pitKnowledge = new HashSet<>();
+    public PitFinder(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+        super(w, name, location, peaches, health, rgb, knowledge);
     }
 
     @Override
@@ -25,7 +23,7 @@ public class PitFinder extends Player {
 
     // addPit
     public boolean addPit() {
-        boolean result = pitKnowledge.add(location);
+        boolean result = knowledge.add(location);
         System.out.println("PeachPit detected, added to pit knowledge" + result);
         return result;
     }

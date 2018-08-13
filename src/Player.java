@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Set;
 
 /**
  * A Player in the game
@@ -14,6 +15,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
+    protected Set<Location> knowledge; // locations remembered by player
 
     /**
      * Creates a player in the game
@@ -25,7 +27,7 @@ public class Player {
      * @param health   is the health of the player (which may or may not be relevant in your game)
      * @param rgb      is the colour of the player
      */
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb) {
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
         this.world = w;
         this.name = name;
         this.location = location;
@@ -33,6 +35,7 @@ public class Player {
         this.peaches = peaches;
         this.health = health;
         this.colour = rgb;
+        this.knowledge = knowledge;
     }
 
     /**
@@ -54,6 +57,14 @@ public class Player {
      */
     public Location getLocation() {
         return location;
+    }
+
+
+    /**
+     * Getter for a player's knowledge
+     */
+    public Set<Location> getKnowledge() {
+        return knowledge;
     }
 
 
@@ -101,15 +112,16 @@ public class Player {
 
     protected void isDead() {
         if (health <= 0) {
-            location.exit(this);
-            world.getHome().enter(this);
+            location.exit(this, false);
+            world.getHome().enter(this, false);
             health = 100;
             System.out.println("\uD83D\uDC80" + this + " is dead, reborn from " + world.getHome());
         }
     }
 
+
     /**
-     * Eat a peach the Player has.
+     * Eat a peach the player has.
      * Restore health by the amount of ripeness if the peach is not bad,
      * Otherwise lose health by the amount of ripeness
      */
@@ -162,6 +174,13 @@ public class Player {
         int oldHealth = health;
         health = h;
         System.out.println(this + " health changed from " + oldHealth + " to " + health);
+    }
+
+    /**
+     * Setter for a player's knowledge
+     */
+    public void setKnowledge(Set<Location> knowledge) {
+        this.knowledge =  knowledge;
     }
 
 

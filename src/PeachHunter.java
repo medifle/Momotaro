@@ -1,12 +1,10 @@
-import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 public class PeachHunter extends Player {
-    protected HashSet<Location> groveKnowledge; // locations of grove
 
-    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb) {
-        super(w, name, location, peaches, health, rgb);
-        this.groveKnowledge = new HashSet<>();
+    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+        super(w, name, location, peaches, health, rgb, knowledge);
     }
 
     @Override
@@ -22,7 +20,7 @@ public class PeachHunter extends Player {
     protected void updatePeachGrove() {
         if (location instanceof PeachGrove) {
             if (location.numberOfPeaches() > 0) {
-                if (!groveKnowledge.contains(location)) {
+                if (!knowledge.contains(location)) {
                     addPeachGrove();
                 }
             } else {
@@ -32,13 +30,13 @@ public class PeachHunter extends Player {
     }
 
     protected boolean addPeachGrove() {
-        boolean result = groveKnowledge.add(location);
+        boolean result = knowledge.add(location);
         System.out.println(getName() + ": " + location + " detected, added to my grove knowledge: " + result);
         return result;
     }
 
     protected boolean removePeachGrove() {
-        boolean result = groveKnowledge.remove(location);
+        boolean result = knowledge.remove(location);
         System.out.println(getName() + ": " + location + " runs out of peaches, removed from my grove knowledge: " + !result);
         return result;
     }
