@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PeachesGame {
     public static void main(String[] args) {
         World w = new World();
-        Player p = new Player(w, "cat", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW);
-        Player q = new Player(w, "dog", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE);
+        Player p = new Player(w, "cat", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new HashSet<>());
+        Player q = new Player(w, "dog", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new HashSet<>());
         w.addPlayer(p).addPlayer(q);
 
         System.out.println("Home : " + w.getHome());
