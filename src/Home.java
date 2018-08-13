@@ -62,7 +62,7 @@ public final class Home extends Location {
     public void enter(Player p) {
         super.enter(p);
         // When PeachHunter enters home, deposits all peaches
-        if (p instanceof PeachHunter) {
+        if (p instanceof PeachHunter && p.getHealth() > 0) {
             while (p.numberOfPeaches() > 0) {
                 addPeach(p.getPeach());
                 // Keeps track of how many peaches each player brings back
@@ -72,7 +72,7 @@ public final class Home extends Location {
         }
 
         // When PitFinder enters home, reports pit location
-        if (p instanceof PitFinder) {
+        if (p instanceof PitFinder && p.getHealth() > 0) {
             for (Location pit : ((PitFinder) p).pitKnowledge) {
                 if (!pitLog.contains(pit)) {
                     pitLog.add(pit);
@@ -98,7 +98,7 @@ public final class Home extends Location {
         PeachGrove testGrove = new PeachGrove(new Position(2, 1), new ArrayList<Player>(), new ArrayList<Peach>());
         w.locations[2][1] = testGrove;
         for (int i = 0; i < 10; i++) {
-            testGrove.addPeach(new Peach(8));
+            testGrove.addPeach(new Peach(8, true));
         }
 
 //        // Test: pitFinder enters home, report pit location
@@ -143,7 +143,7 @@ public final class Home extends Location {
         peachHunter.pickPeach();
         peachHunter.pickPeach();
         peachHunter.location.showPeaches();
-        peachHunter.setHealth(1);
+        peachHunter.setHealth(15);
 
         for (int i = 0; i < 3; i++) {
             w.getHome().addPeach(new Peach(10));
@@ -172,6 +172,7 @@ public final class Home extends Location {
         helper.play();
         helper.showPeaches();
         System.out.println(helper.getLocation());
+        System.out.println(w.getHome().getPlayers());
 
         // Test: move
         // outOfBounds check
