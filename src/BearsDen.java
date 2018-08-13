@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +34,23 @@ public class BearsDen extends Location {
     }
 
 
+
+    // Test: BearsDen
+    public static void main(String[] args) {
+        World w = new World();
+        SmartyPants smartyPants = new SmartyPants(w, "SmartyPants", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, null);
+
+        w.addPlayer(smartyPants);
+
+
+        BearsDen testDen = new BearsDen(new Position(1, 1), "This is a bearsDen",
+                                        new ArrayList<Player>(), new ArrayList<Peach>(), new ArrayList<Player>());
+
+        w.locations[1][1] = testDen;
+        w.move(smartyPants, Directions.DOWN);
+        w.move(smartyPants, Directions.RIGHT);
+
+    }
 
 
 } 

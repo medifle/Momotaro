@@ -1,6 +1,6 @@
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * A Player in the game
@@ -16,7 +16,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-
+    protected Set<Location> knowledge;
     /**
      * Creates a player in the game
      *
@@ -27,7 +27,7 @@ public class Player {
      * @param health   is the health of the player (which may or may not be relevant in your game)
      * @param rgb      is the colour of the player
      */
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, ArrayList<Location> knowledge) {
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
         this.world = w;
         this.name = name;
         this.location = location;
@@ -77,31 +77,24 @@ public class Player {
     /**
      * Getter for a player's knowledge
      */
-    public ArrayList<Location> getKnowledge() {
+    public Set<Location> getKnowledge() {
         return knowledge;
     }
 
     /**
      * Setter for a player's knowledge
      */
-    public void setKnowledge(ArrayList<Location> knowledge) {
+    public void setKnowledge(Set<Location> knowledge) {
         this.knowledge =  knowledge;
     }
+
     /**
      * This is the logic of the player.
-<<<<<<< HEAD
-     * It defines what they should do when given a chance to do somerthing
-     *
-     *
-     * overridden play method should at least call move
-=======
      * It defines what they should do when given a chance to do something
->>>>>>> f87e25bdde21fb440a9872bc9760a9d92de8e12b
      */
     public void play() {
         if (health < 10) {
             getHelp();
-            return;
         }
 
 
@@ -111,14 +104,8 @@ public class Player {
     /**
      * Move a player one step to the direction
      *
-<<<<<<< HEAD
-     * @param newLocation is the new location that the player will be moved to
-     * @return true if the move was successful and false otherwise (e.g. when trying to move from one
-     * location to another that are not connected)
-=======
      * @param direction the direction the player moves
      * @return true if the move was successful and false otherwise
->>>>>>> f87e25bdde21fb440a9872bc9760a9d92de8e12b
      */
     public boolean move(int direction) {
         // move from current location to new location (if possible)
