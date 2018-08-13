@@ -50,6 +50,10 @@ public class Location {
         return peachesAtLocation == null ? 0 : peachesAtLocation.size();
     }
 
+    public void showPeaches() {
+        System.out.println("peaches left at " + this + ": " + peachesAtLocation);
+    }
+
 
     /**
      * adding a peach to the location
@@ -59,20 +63,47 @@ public class Location {
     }
 
     /**
-     * allows the location to do something to a player when entering the location
+     * Allows the location to do something to a player when entering the location
      */
     public void enter(Player p) {
-        p.setLocation(this);
-        peopleAtLocation.add(p);
-        System.out.println(p.getName() + " just entered location " + position);
+        enter(p, true);
     }
 
     /**
-     * remove a player from a room
+     * Allows the location to do something to a player when entering the location
+     *
+     * @param p   the player to enter the location
+     * @param msg if true, print message
+     */
+    public void enter(Player p, boolean msg) {
+        p.setLocation(this);
+        peopleAtLocation.add(p);
+        if (msg) {
+            System.out.println(p.getName() + " just entered location " + position);
+        }
+    }
+
+    /**
+     * Removes a player from a room
+     *
+     * @param p the player to exit from the location
      */
     public void exit(Player p) {
+        exit(p, true);
+    }
+
+
+    /**
+     * Removes a player from a room
+     *
+     * @param p   the player to exit from the location
+     * @param msg if true, print message
+     */
+    public void exit(Player p, boolean msg) {
         peopleAtLocation.remove(p);
-        System.out.println(p.getName() + " just left location " + position);
+        if (msg) {
+            System.out.println(p.getName() + " just left location " + position);
+        }
     }
 
     /* ONLY for Home subclass */

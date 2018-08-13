@@ -55,16 +55,32 @@ public class World {
         //
         switch (direction) {
             case Directions.UP:
-                newLocation = locations[x - 1][y];
+                try {
+                    newLocation = locations[x - 1][y];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return false;
+                }
                 break;
             case Directions.DOWN:
-                newLocation = locations[x + 1][y];
+                try {
+                    newLocation = locations[x + 1][y];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return false;
+                }
                 break;
             case Directions.LEFT:
-                newLocation = locations[x][y - 1];
+                try {
+                    newLocation = locations[x][y - 1];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return false;
+                }
                 break;
             case Directions.RIGHT:
-                newLocation = locations[x][y + 1];
+                try {
+                    newLocation = locations[x][y + 1];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return false;
+                }
                 break;
             default:
                 break;
