@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashSet;
 import java.util.HashMap;
-import java.util.Set;
 public class SmartyPants extends Player {
 
 
@@ -36,12 +35,10 @@ public class SmartyPants extends Player {
     };
 
 
-    public SmartyPants(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
-        //I'm using a hashset of hashset of locations to store all knowledge,
-        // so in here, knowledge means nothing?
 
+    public SmartyPants(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, HashSet<Location> knowledge ) {
         super(w, name, location, peaches, health, rgb, knowledge);
-        this.knowledge = null;
+
         smartyKnowledge= knowAllKnowledge();
     }
 
@@ -49,7 +46,7 @@ public class SmartyPants extends Player {
 
 
     //get the correct hashset based on need.
-    public Set<Location> getHash(String location) {
+    public HashSet<Location> getHash(String location) {
         if (location == "PeachGrove") {
             return knowAllKnowledge().get(1);
         } else if (location == "PeachPit") {
@@ -112,8 +109,9 @@ public class SmartyPants extends Player {
                 }
 
 
-                Set<Location> smartyKnowledge = this.getHash("PeachGrove");
-                Set<Location> otherKnowledge = p.getKnowledge();
+
+                HashSet<Location> smartyKnowledge = this.getHash("PeachGrove");
+                HashSet<Location> otherKnowledge = p.getKnowledge();
 
                 //iterate peachgrove HashSet and exchange info.
                 for (Location location: smartyKnowledge) {
@@ -134,9 +132,10 @@ public class SmartyPants extends Player {
                     count += 1;
                 }
 
-                Set<Location> smartyKnowledge1 = this.getHash("PeachPit");
-                Set<Location> smartyKnowledge2 = this.getHash("BearsDen");
-                Set<Location> otherKnowledge = p.getKnowledge();
+
+                HashSet<Location> smartyKnowledge1 = this.getHash("PeachPit");
+                HashSet<Location> smartyKnowledge2 = this.getHash("BearsDen");
+                HashSet<Location> otherKnowledge = p.getKnowledge();
 
                 //iterate PeachPit HashSet and exchange info.
                 for (Location location: smartyKnowledge1) {

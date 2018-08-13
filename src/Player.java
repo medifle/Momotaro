@@ -16,7 +16,8 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-    protected Set<Location> knowledge;
+    protected HashSet<Location> knowledge;
+
     /**
      * Creates a player in the game
      *
@@ -27,7 +28,9 @@ public class Player {
      * @param health   is the health of the player (which may or may not be relevant in your game)
      * @param rgb      is the colour of the player
      */
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, HashSet<Location> knowledge) {
+
         this.world = w;
         this.name = name;
         this.location = location;
@@ -77,19 +80,21 @@ public class Player {
     /**
      * Getter for a player's knowledge
      */
-    public Set<Location> getKnowledge() {
+
+    public HashSet<Location> getKnowledge() {
         return knowledge;
     }
 
     /**
      * Setter for a player's knowledge
      */
-    public void setKnowledge(Set<Location> knowledge) {
+    public void setKnowledge(HashSet<Location> knowledge) {
         this.knowledge =  knowledge;
     }
 
     /**
      * This is the logic of the player.
+<<<<<<< HEAD
      * It defines what they should do when given a chance to do something
      */
     public void play() {
