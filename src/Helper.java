@@ -16,6 +16,7 @@ public class Helper extends Player {
 
     @Override
     public void play() {
+        isDead();
         // If Helper is in low health and still have peaches after eating one
         if (health < 30 && numberOfPeaches() > 1) {
             eatPeach();
