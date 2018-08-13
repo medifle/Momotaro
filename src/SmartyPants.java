@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Random;
 public class SmartyPants extends Player {
 
 
@@ -26,7 +26,7 @@ public class SmartyPants extends Player {
             return;
         }
 
-        //if smartypants is not the only player in a given location, interact with them.
+        //if smartypants is not the only player in a given location, interact with them. Else, move somewhere
         List<Player> players = location.getPlayers();
         if (players.contains(this) && players.size() != 1) {
             for (int i = 0; i < players.size(); i++) {
@@ -34,10 +34,26 @@ public class SmartyPants extends Player {
                     this.interact(players.get(i));
                 }
             }
+        }else{
+            moveSmarty();
         }
+
+
     }
 
+    private void moveSmarty(){
+        //Store 4 directions in an arrayList, and
+        //randomly choose one of four directions
 
+        ArrayList<Integer> directions = new ArrayList<>();
+        directions.add(0);
+        directions.add(1);
+        directions.add(2);
+        directions.add(3);
+
+        int rnd = new Random().nextInt(directions.size());
+        move(directions.get(rnd));
+    }
 
     @Override
     public void interact(Player p) {
