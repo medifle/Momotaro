@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,13 +35,20 @@ public class BearsDen extends Location {
     }
 
 
+    //Call bear method upon player entering.
+    @Override
+    public void enter(Player p) {
+        enter(p, true);
+        bear(p);
+    }
 
+    /*
     // Test: BearsDen
     public static void main(String[] args) {
         World w = new World();
-        SmartyPants smartyPants = new SmartyPants(w, "SmartyPants", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, null);
-
-        w.addPlayer(smartyPants);
+        SmartyPants smartyPants = new SmartyPants(w, "SmartyPants", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new HashSet<>());
+        PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.YELLOW, new HashSet<>());
+        w.addPlayer(smartyPants).addPlayer(peachHunter);
 
 
         BearsDen testDen = new BearsDen(new Position(1, 1), "This is a bearsDen",
@@ -49,8 +57,15 @@ public class BearsDen extends Location {
         w.locations[1][1] = testDen;
         w.move(smartyPants, Directions.DOWN);
         w.move(smartyPants, Directions.RIGHT);
+        w.move(peachHunter, Directions.DOWN);
+        w.move(peachHunter, Directions.RIGHT);
 
+        for (Player pp : w.getPlayers()) {
+            System.out.println(pp.getLocation());
+            System.out.println(pp.getLocation().getPlayers());
+            System.out.println(pp.getHealth());
+        }
     }
-
+    */
 
 } 

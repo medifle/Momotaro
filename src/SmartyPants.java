@@ -1,8 +1,5 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
+
 public class SmartyPants extends Player {
 
 
@@ -99,11 +96,11 @@ public class SmartyPants extends Player {
 
     @Override
     public void interact(Player p) {
-        int count = 1;
+        int count = 0;
         if (p.name == "PeachHunter") {
             if (p.peaches.size() >= 7) {
                 // transfer peaches
-                while (count < p.peaches.size()) {
+                while (count < 7) {
                     this.peaches.add(p.getPeach());
                     count += 1;
                 }
@@ -111,13 +108,14 @@ public class SmartyPants extends Player {
 
 
                 HashSet<Location> smartyKnowledge = this.getHash("PeachGrove");
-                HashSet<Location> otherKnowledge = p.getKnowledge();
+                Set<Location> otherKnowledge = p.getKnowledge();
 
                 //iterate peachgrove HashSet and exchange info.
                 for (Location location: smartyKnowledge) {
                     if (!(otherKnowledge.contains(location))) {
                         otherKnowledge.add(location);
                         p.setKnowledge(otherKnowledge);
+                        System.out.println("PeachGrove location exchanged with PeachHunter!");
                         break;
                     }
                 }
@@ -127,7 +125,7 @@ public class SmartyPants extends Player {
         } else if (p.name == "PitFinder") {
             if (p.peaches.size() >= 6) {
                 // transfer peaches
-                while (count < p.peaches.size()) {
+                while (count < 6) {
                     this.peaches.add(p.getPeach());
                     count += 1;
                 }
@@ -135,7 +133,7 @@ public class SmartyPants extends Player {
 
                 HashSet<Location> smartyKnowledge1 = this.getHash("PeachPit");
                 HashSet<Location> smartyKnowledge2 = this.getHash("BearsDen");
-                HashSet<Location> otherKnowledge = p.getKnowledge();
+                Set<Location> otherKnowledge = p.getKnowledge();
 
                 //iterate PeachPit HashSet and exchange info.
                 for (Location location: smartyKnowledge1) {
@@ -157,7 +155,7 @@ public class SmartyPants extends Player {
             }
 
         } else if (p.name == "PeachThief") {
-            while (count < p.peaches.size()) {
+            while (count + 1 < p.peaches.size()) {
                 this.peaches.add(p.getPeach());
                 count += 1;
             }
