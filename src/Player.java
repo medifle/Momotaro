@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * A Player in the game
@@ -57,23 +56,31 @@ public class Player {
         return location;
     }
 
-    /**
-     * Getter for a player's peach
-     */
-    public Peach getPeach() {
-        return peaches == null ? null : peaches.remove(0);
-    }
 
     /**
      * Getter for a player's health
      */
     public int getHealth() {
-        System.out.println(getName() + " health: " + health);
         return health;
     }
 
+    protected void showHealth() {
+        System.out.println(getName() + " health: " + getHealth());
+    }
 
-    protected void checkPeaches() {
+
+    /**
+     * Getter for a player's peach
+     */
+    public Peach getPeach() {
+        return numberOfPeaches() == 0 ? null : peaches.remove(0);
+    }
+
+    protected int numberOfPeaches() {
+        return peaches == null ? 0 : peaches.size();
+    }
+
+    protected void showPeaches() {
         System.out.println(this.peaches);
     }
 
@@ -82,9 +89,35 @@ public class Player {
      * It defines what they should do when given a chance to do something
      */
     public void play() {
+        if (health <= 0) {
+            // TODO: dead, go back
+        }
+        if (health < 30) {
+            eatPeach();
+        }
         if (health < 10) {
             getHelp();
-            return;
+        }
+    }
+
+    /**
+     * Eat a peach the Player has.
+     * Restore health by the amount of ripeness if the peach is not bad,
+     * Otherwise lose health by the amount of ripeness
+     */
+    protected void eatPeach() {
+        if (numberOfPeaches() > 0) {
+            Peach peachToEat = getPeach();
+            if (!peachToEat.bad) {
+                health += peachToEat.ripeness;
+                System.out.println(this + " ate a peach...");
+                System.out.println(this + " restore " + peachToEat.ripeness + " health :)");
+            } else {
+                health -= peachToEat.ripeness;
+                System.out.println(this + " ate a peach...");
+                System.out.println("bad peach! " + this + " lost " + peachToEat.ripeness + " health :(");
+            }
+            showHealth();
         }
     }
 
@@ -95,7 +128,6 @@ public class Player {
      * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
-
         return world.move(this, direction);
     }
 
@@ -122,7 +154,7 @@ public class Player {
 
     // Receive a peach from another player
     protected boolean receivePeach(Player p) {
-        if (p.peaches.size() > 0) {
+        if (p.numberOfPeaches() > 0) {
             boolean result = peaches.add(p.getPeach());
 //            System.out.println(getName() + " received a peach from " + p.getName() + ": " + result);
             return result;
@@ -135,10 +167,10 @@ public class Player {
     protected boolean pickPeach() {
         if (location.numberOfPeaches() > 0) {
             boolean result = peaches.add(location.getPeach());
-//            System.out.println(getName() + " picked a peach from " + location + ": " + result);
+            System.out.println(getName() + " picked a peach from " + location + ": " + result);
             return result;
         } else {
-//            System.out.println(this.location + ": Not enough peaches!");
+            System.out.println(this.location + ": Not enough peaches!");
             return false;
         }
     }

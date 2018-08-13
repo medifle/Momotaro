@@ -63,7 +63,7 @@ public final class Home extends Location {
         super.enter(p);
         // When PeachHunter enters home, deposits all peaches
         if (p instanceof PeachHunter) {
-            while (p.peaches.size() > 0) {
+            while (p.numberOfPeaches() > 0) {
                 addPeach(p.getPeach());
                 // Keeps track of how many peaches each player brings back
                 peachMap.merge(p, 1, (x, y) -> x + y);
@@ -142,8 +142,8 @@ public final class Home extends Location {
         peachHunter.pickPeach();
         peachHunter.pickPeach();
         peachHunter.pickPeach();
-        System.out.println("peaches left at peachGrove: " + peachHunter.location.peachesAtLocation);
-        peachHunter.setHealth(9);
+        peachHunter.location.showPeaches();
+        peachHunter.setHealth(1);
 
         for (int i = 0; i < 3; i++) {
             w.getHome().addPeach(new Peach(10));
@@ -161,8 +161,8 @@ public final class Home extends Location {
         helper.play();
         helper.play();
 
-        peachHunter.getHealth(); // TODO: eat a peach to restore HP in one turn
-        peachHunter.checkPeaches();
+        peachHunter.play();
+        peachHunter.location.showPeaches();
 
         // Helper should go towards home from now
         helper.play();
@@ -170,7 +170,7 @@ public final class Home extends Location {
         helper.play();
         helper.play();
         helper.play();
-        helper.checkPeaches();
+        helper.showPeaches();
         System.out.println(helper.getLocation());
 
         // Test: move
