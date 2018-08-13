@@ -15,6 +15,10 @@ public class Helper extends Player {
 
     @Override
     public void play() {
+        // If Helper is in low health and still have peaches after eating one
+        if (health < 30 && numberOfPeaches() > 1) {
+            eatPeach();
+        }
         // If Helper has not help target out
         if (!hasHelped) {
             moveToTarget(target);
@@ -85,7 +89,7 @@ public class Helper extends Player {
         for (Player player : location.getPlayers()) {
             if (player.equals(target)) {
                 int count = 0;
-                while (this.peaches.size() > 0) {
+                while (this.numberOfPeaches() > 0) {
                     player.receivePeach(this);
                     count += 1;
                 }

@@ -50,6 +50,10 @@ public class Location {
         return peachesAtLocation == null ? 0 : peachesAtLocation.size();
     }
 
+    public void showPeaches() {
+        System.out.println("peaches left at " + this + ": " + peachesAtLocation);
+    }
+
 
     /**
      * adding a peach to the location

@@ -15,15 +15,21 @@ public class PeachHunter extends Player {
         // TODO: Call move method
 
         // Remember or forget PeachGrove location
+        updatePeachGrove();
+    }
+
+
+    protected void updatePeachGrove() {
         if (location instanceof PeachGrove) {
             if (location.numberOfPeaches() > 0) {
-                addPeachGrove();
+                if (!groveKnowledge.contains(location)) {
+                    addPeachGrove();
+                }
             } else {
                 removePeachGrove();
             }
         }
     }
-
 
     protected boolean addPeachGrove() {
         boolean result = groveKnowledge.add(location);
@@ -33,7 +39,7 @@ public class PeachHunter extends Player {
 
     protected boolean removePeachGrove() {
         boolean result = groveKnowledge.remove(location);
-        System.out.println(getName() + ": " + location + " runs out of peaches, removed from my grove knowledge" + result);
+        System.out.println(getName() + ": " + location + " runs out of peaches, removed from my grove knowledge: " + !result);
         return result;
     }
 }
