@@ -16,7 +16,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-    protected HashSet<Location> knowledge;
+    protected Set<Location> knowledge;
 
     /**
      * Creates a player in the game
@@ -29,7 +29,7 @@ public class Player {
      * @param rgb      is the colour of the player
      */
 
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, HashSet<Location> knowledge) {
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
 
         this.world = w;
         this.name = name;
@@ -62,12 +62,7 @@ public class Player {
         return location;
     }
 
-    /**
-     * Getter for a player's peach
-     */
-    public Peach getPeach() {
-        return peaches == null ? null : peaches.remove(0);
-    }
+
 
     /**
      * Getter for a player's health
@@ -76,36 +71,83 @@ public class Player {
         return health;
     }
 
+    protected void showHealth() {
+        System.out.println(getName() + " (HP:" + health + ")");
+    }
 
+    /**
+     * * Getter for a player's peach
+     */
+
+    public Peach getPeach() {
+        return numberOfPeaches() == 0 ? null : peaches.remove(0);
+    }
+
+    protected int numberOfPeaches() {
+        return peaches == null ? 0 : peaches.size();
+    }
+
+    protected void showPeaches() {
+        System.out.println(this.peaches);
+    }
     /**
      * Getter for a player's knowledge
      */
 
-    public HashSet<Location> getKnowledge() {
+    public Set<Location> getKnowledge() {
         return knowledge;
     }
 
-    /**
-     * Setter for a player's knowledge
-     */
-    public void setKnowledge(HashSet<Location> knowledge) {
-        this.knowledge =  knowledge;
-    }
+
 
     /**
      * This is the logic of the player.
-<<<<<<< HEAD
      * It defines what they should do when given a chance to do something
      */
     public void play() {
+        isDead();
+        if (health < 30) {
+            eatPeach();
+        }
         if (health < 10) {
             getHelp();
         }
-
-
-
     }
 
+    protected void isDead() {
+        if (health <= 0) {
+            location.exit(this, false);
+            health = 100;
+            System.out.println("\uD83D\uDC80" + this + " is dead, reborn from " + world.getHome());
+        }
+    }
+
+
+    /**
+     * Eat a peach the player has.
+     * Restore health by the amount of ripeness if the peach is not bad,
+     * Otherwise lose health by the amount of ripeness
+     */
+    protected void eatPeach() {
+        if (numberOfPeaches() > 0) {
+            Peach peachToEat = getPeach();
+            System.out.println(this + " ate a peach...");
+            if (!peachToEat.bad) {
+                health += peachToEat.ripeness;
+                System.out.println(this + " restore " + peachToEat.ripeness + " health \uD83D\uDE00");
+            } else {
+                if (peachToEat.ripeness > health) {
+                    System.out.println("\uD83D\uDC94Bad peach! " + this + " lost last " + health + " health");
+                    health = 0;
+                    isDead();
+                } else {
+                    System.out.println("\uD83D\uDC94Bad peach! " + this + " lost " + peachToEat.ripeness + " health");
+                    health -= peachToEat.ripeness;
+                    showHealth();
+                }
+            }
+        }
+    }
     /**
      * Move a player one step to the direction
      *
@@ -133,10 +175,41 @@ public class Player {
      * @param h is the new health of the player
      */
     public void setHealth(int h) {
+        int oldHealth = health;
         this.health = h;
+        System.out.println(this + " health changed from " + oldHealth + " to " + health);
+    }
+
+    /**
+     * Setter for a player's knowledge
+     */
+    public void setKnowledge(Set<Location> knowledge) {
+        this.knowledge =  knowledge;
     }
 
 
+    // Receive a peach from another player
+    protected boolean receivePeach(Player p) {
+        if (p.numberOfPeaches() > 0) {
+            boolean result = peaches.add(p.getPeach());
+//            System.out.println(getName() + " received a peach from " + p.getName() + ": " + result);
+            return result;
+        }
+        return false;
+    }
+
+
+    // Pick a peach from location
+    protected boolean pickPeach() {
+        if (location.numberOfPeaches() > 0) {
+            boolean result = peaches.add(location.getPeach());
+            System.out.println(this + " picked a peach from " + location + ": " + result);
+            return result;
+        } else {
+            System.out.println(this.location + ": not enough peaches!");
+            return false;
+        }
+    }
     /**
      * Allows for interaction with this player and another player
      * (presumably called from within the play method)
