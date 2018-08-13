@@ -1,22 +1,60 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashSet;
+import java.util.HashMap;
 public class SmartyPants extends Player {
 
 
-    // iterate through the world to store all locations in masterKnowledge.
-    protected ArrayList<Location> knowAllKnowledge() {
-        ArrayList<Location> masterKnowledge = new ArrayList<Location>();
+    protected HashMap<Integer, HashSet<Location>> smartyKnowledge;
+
+    // HashMap of HashSets of locations
+
+    protected HashMap<Integer, HashSet<Location>> knowAllKnowledge() {
+        HashMap<Integer, HashSet<Location>> master = new HashMap<>();
+        HashSet<Location> groves = new HashSet<>();
+        HashSet<Location> pits = new HashSet<>();
+        HashSet<Location> dens = new HashSet<>();
+        //iterate world to get all objects
         for (int i = 0; i < world.getLocations().size(); i++) {
-            masterKnowledge.add(world.getLocations().get(i));
+            Location currentLocation = world.getLocations().get(i);
+            if (currentLocation instanceof PeachGrove) {
+                groves.add(currentLocation);
+            } else if (currentLocation instanceof PeachPit) {
+                pits.add(currentLocation);
+            } else if (currentLocation instanceof BearsDen) {
+                dens.add(currentLocation);
+            }
         }
-        return masterKnowledge;
+
+        master.put(1, groves);
+        master.put(2, pits);
+        master.put(3, dens);
+
+        return master;
     };
 
 
-    public SmartyPants(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, ArrayList<Location> knowledge) {
+    public SmartyPants(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, HashSet<Location> knowledge ) {
+        //I'm using a hashset of hashset of locations to store all knowledge,
+        // so in here, knowledge means nothing?
+
         super(w, name, location, peaches, health, rgb, knowledge);
-        this.knowledge= knowAllKnowledge();
+        smartyKnowledge= knowAllKnowledge();
+    }
+
+
+    //get the correct hashset based on need.
+    public HashSet<Location> getHash(String location) {
+        if (location == "PeachGrove") {
+            return knowAllKnowledge().get(1);
+        } else if (location == "PeachPit") {
+            return knowAllKnowledge().get(2);
+        } else if (location == "BearsDen") {
+            return knowAllKnowledge().get(3);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -55,6 +93,9 @@ public class SmartyPants extends Player {
         move(directions.get(rnd));
     }
 
+
+
+
     @Override
     public void interact(Player p) {
         int count = 1;
@@ -67,19 +108,15 @@ public class SmartyPants extends Player {
                 }
 
 
-                ArrayList<Location> smartyKnowledge = this.getKnowledge();
-                ArrayList<Location> otherKnowledge = p.getKnowledge();
+                HashSet<Location> smartyKnowledge = this.getHash("PeachGrove");
+                HashSet<Location> otherKnowledge = p.getKnowledge();
 
-                //iterate knowledge to find PeachGrove.
-                //if found location doesn't exist in p's knowledge, add & update knowledge.
-                for (int i = 0; i < smartyKnowledge.size(); i++) {
-                    String smartyDescription = smartyKnowledge.get(i).description;
-                    if (smartyDescription == "PeachGrove") {
-                        if (!(otherKnowledge.contains(smartyDescription))) {
-                            otherKnowledge.add(smartyKnowledge.get(i));
-                            p.setKnowledge(otherKnowledge);
-                            break;
-                        }
+                //iterate peachgrove HashSet and exchange info.
+                for (Location location: smartyKnowledge) {
+                    if (!(otherKnowledge.contains(location))) {
+                        otherKnowledge.add(location);
+                        p.setKnowledge(otherKnowledge);
+                        break;
                     }
                 }
             }
@@ -93,19 +130,25 @@ public class SmartyPants extends Player {
                     count += 1;
                 }
 
-                ArrayList<Location> smartyKnowledge = this.getKnowledge();
-                ArrayList<Location> otherKnowledge = p.getKnowledge();
+                HashSet<Location> smartyKnowledge1 = this.getHash("PeachPit");
+                HashSet<Location> smartyKnowledge2 = this.getHash("BearsDen");
+                HashSet<Location> otherKnowledge = p.getKnowledge();
 
-                //iterate knowledge to find PeachPit or BearsDen
-                //if found location doesn't exist in p's knowledge, add & update knowledge.
-                for (int i = 0; i < smartyKnowledge.size(); i++) {
-                    String smartyDescription = smartyKnowledge.get(i).description;
-                    if (smartyDescription == "PeachPit" || smartyDescription == "BearsDen") {
-                        if (!(otherKnowledge.contains(smartyDescription))) {
-                            otherKnowledge.add(smartyKnowledge.get(i));
-                            p.setKnowledge(otherKnowledge);
-                            break;
-                        }
+                //iterate PeachPit HashSet and exchange info.
+                for (Location location: smartyKnowledge1) {
+                    if (!(otherKnowledge.contains(location))) {
+                        otherKnowledge.add(location);
+                        p.setKnowledge(otherKnowledge);
+                        break;
+                    }
+                }
+
+                //if all pits are revealed, reveal bearsden
+                for (Location location: smartyKnowledge2) {
+                    if (!(otherKnowledge.contains(location))) {
+                        otherKnowledge.add(location);
+                        p.setKnowledge(otherKnowledge);
+                        break;
                     }
                 }
             }
