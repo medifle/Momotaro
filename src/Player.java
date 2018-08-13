@@ -65,7 +65,7 @@ public class Player {
     }
 
     protected void showHealth() {
-        System.out.println(getName() + " HP:(" + health + ")");
+        System.out.println(getName() + " (HP:" + health + ")");
     }
 
 
