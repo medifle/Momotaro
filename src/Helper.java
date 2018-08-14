@@ -1,7 +1,5 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.HashSet;
 
 public class Helper extends Player {
     protected Player target;
@@ -9,7 +7,7 @@ public class Helper extends Player {
     protected boolean hasHelped;
 
     public Helper(Player target, Location targetLocation, World world, List<Peach> peaches) {
-        super(world, "Helper", world.getHome(), peaches, 100, RGB.GREEN, new HashSet<Location>());
+        super(world, "Helper", world.getHome(), peaches, 100, RGB.GREEN, new ArrayList<>());
         this.target = target;
         this.targetLocation = targetLocation;
     }

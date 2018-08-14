@@ -1,16 +1,20 @@
-import java.util.Set;
 import java.util.List;
 
 public class PeachHunter extends Player {
+    protected int peachCapacity;
 
-    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, List<Location> knowledge) {
         super(w, name, location, peaches, health, rgb, knowledge);
+        this.peachCapacity = 100;
     }
 
     @Override
     public void play() {
         super.play();
         // TODO: Call move method
+        if (knowledge.size() > 0) {
+//            moveToTarget(knowledge.);
+        }
 
         // Remember or forget PeachGrove location
         updatePeachGrove();

@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Random;
 
 /**
@@ -17,7 +16,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-    protected Set<Location> knowledge; // locations remembered by player
+    protected List<Location> knowledge; // locations remembered by player
 
     /**
      * Creates a player in the game
@@ -29,7 +28,7 @@ public class Player {
      * @param health   is the health of the player (which may or may not be relevant in your game)
      * @param rgb      is the colour of the player
      */
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, List<Location> knowledge) {
         this.world = w;
         this.name = name;
         this.location = location;
@@ -65,7 +64,7 @@ public class Player {
     /**
      * Getter for a player's knowledge
      */
-    public Set<Location> getKnowledge() {
+    public List<Location> getKnowledge() {
         return knowledge;
     }
 
@@ -273,7 +272,7 @@ public class Player {
     /**
      * Setter for a player's knowledge
      */
-    public void setKnowledge(Set<Location> knowledge) {
+    public void setKnowledge(List<Location> knowledge) {
         this.knowledge = knowledge;
     }
 
