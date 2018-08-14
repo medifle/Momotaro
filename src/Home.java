@@ -1,10 +1,9 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
 
 public final class Home extends Location {
-    protected HashSet<Location> pitLog; // locations of pit
+    protected ArrayList<Location> pitLog; // locations of pit
     protected HashMap<Player, Integer> peachMap;
 
     // Constructs a Home with empty players and peaches
@@ -15,7 +14,7 @@ public final class Home extends Location {
     // Constructs a Home with a list of players and peaches
     public Home(List<Player> people, List<Peach> peaches) {
         super(new Position(0, 0), "Home", people, peaches);
-        this.pitLog = new HashSet<>();
+        this.pitLog = new ArrayList<>();
         this.peachMap = new HashMap<>();
     }
 
@@ -86,9 +85,9 @@ public final class Home extends Location {
     // Test: Home
     public static void main(String[] args) {
         World w = new World();
-        PitFinder pitFinder = new PitFinder(w, "PitFinder", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new HashSet<>());
-        PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new HashSet<>());
-        PeachHunter peachHunter_js = new PeachHunter(w, "PeachHunter_js", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new HashSet<>());
+        PitFinder pitFinder = new PitFinder(w, "PitFinder", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new ArrayList<>());
+        PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new ArrayList<>());
+        PeachHunter peachHunter_js = new PeachHunter(w, "PeachHunter_js", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new ArrayList<>());
 
         PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
         for (int i = 0; i < 10; i++) {
