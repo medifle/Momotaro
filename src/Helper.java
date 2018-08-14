@@ -32,57 +32,6 @@ public class Helper extends Player {
 
     }
 
-    protected void moveToTarget(Location targetLocation) {
-        int target_X = targetLocation.getPosition().getX();
-        int target_Y = targetLocation.getPosition().getY();
-        int helper_X = location.getPosition().getX();
-        int helper_Y = location.getPosition().getY();
-
-        // Get available directions to get to target
-        int direction_X = -1;
-        int direction_Y = -1;
-        if ((target_X - helper_X) < 0) {
-            direction_X = Directions.UP;
-        } else if ((target_X - helper_X) > 0) {
-            direction_X = Directions.DOWN;
-        }
-        if ((target_Y - helper_Y) < 0) {
-            direction_Y = Directions.LEFT;
-        } else if ((target_Y - helper_Y) > 0) {
-            direction_Y = Directions.RIGHT;
-        }
-
-        // Choose randomly from available directions
-        ArrayList<Integer> directions = new ArrayList<>();
-        if (direction_X != -1) {
-            directions.add(direction_X);
-        }
-        if (direction_Y != -1) {
-            directions.add(direction_Y);
-        }
-        // If helper has not reached the target location, move to the target
-        if (directions.size() != 0) {
-            int rnd = new Random().nextInt(directions.size());
-            move(directions.get(rnd));
-        }
-    }
-
-    /**
-     * Move to the target location
-     *
-     * @param target the player who called for help
-     */
-    protected void moveToTarget(Player target) {
-        moveToTarget(target.getLocation());
-    }
-
-
-    /**
-     * Go back Home
-     */
-    protected void backHome() {
-        moveToTarget(world.getHome());
-    }
 
     // If found target at current location, give peaches to target
     @Override

@@ -85,7 +85,7 @@ public class World {
             default:
                 break;
         }
-        loc.exit(p);
+        loc.exit(p, false);
         newLocation.enter(p);
 
 
