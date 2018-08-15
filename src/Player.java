@@ -119,8 +119,8 @@ public class Player {
                 getHelp();
                 helpCoolDown = 2;
             } else {
-                helpCoolDown -= 1;
                 System.out.println("callForHelp cooling, " + helpCoolDown + " turns left");
+                helpCoolDown -= 1;
             }
         }
     }
