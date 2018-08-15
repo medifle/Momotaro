@@ -1,6 +1,7 @@
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A Player in the game
@@ -16,7 +17,7 @@ public class Player {
     protected List<Peach> peaches;  // peaches
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
-    protected Set<Location> knowledge;
+    protected List<Location> knowledge; // locations remembered by player
 
     /**
      * Creates a player in the game
@@ -28,9 +29,7 @@ public class Player {
      * @param health   is the health of the player (which may or may not be relevant in your game)
      * @param rgb      is the colour of the player
      */
-
-    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
-
+    public Player(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, List<Location> knowledge) {
         this.world = w;
         this.name = name;
         this.location = location;
@@ -63,6 +62,12 @@ public class Player {
     }
 
 
+    /**
+     * Getter for a player's knowledge
+     */
+    public List<Location> getKnowledge() {
+        return knowledge;
+    }
 
     /**
      * Getter for a player's health
@@ -148,6 +153,8 @@ public class Player {
             }
         }
     }
+
+
     /**
      * Move a player one step to the direction
      *
@@ -160,6 +167,95 @@ public class Player {
         return false;
     }
 
+
+    /**
+     * Move to the target location
+     *
+     * @param targetLocation the target location the player wanna move to
+     */
+    protected void moveToTarget(Location targetLocation) {
+        int target_X = targetLocation.getPosition().getX();
+        int target_Y = targetLocation.getPosition().getY();
+        int player_X = location.getPosition().getX();
+        int player_Y = location.getPosition().getY();
+
+        // Get available directions to get to target
+        int direction_X = -1;
+        int direction_Y = -1;
+        if ((target_X - player_X) < 0) {
+            direction_X = Directions.UP;
+        } else if ((target_X - player_X) > 0) {
+            direction_X = Directions.DOWN;
+        }
+        if ((target_Y - player_Y) < 0) {
+            direction_Y = Directions.LEFT;
+        } else if ((target_Y - player_Y) > 0) {
+            direction_Y = Directions.RIGHT;
+        }
+
+        // Choose randomly from available directions
+        ArrayList<Integer> directions = new ArrayList<>();
+        if (direction_X != -1) {
+            directions.add(direction_X);
+        }
+        if (direction_Y != -1) {
+            directions.add(direction_Y);
+        }
+        // If player has not reached the target location, move to the target
+        if (directions.size() != 0) {
+            int rnd = new Random().nextInt(directions.size());
+            move(directions.get(rnd));
+        }
+    }
+
+    /**
+     * Move to the target location
+     *
+     * @param target the player who called for help
+     */
+    protected void moveToTarget(Player target) {
+        moveToTarget(target.getLocation());
+    }
+
+
+    /**
+     * Go back Home
+     */
+    protected void backHome() {
+        moveToTarget(world.getHome());
+    }
+
+
+    protected void moveRandom() {
+        // Cast to Object type for easier remove
+        ArrayList<Object> directions = new ArrayList<>();
+        directions.add(Directions.UP);
+        directions.add(Directions.RIGHT);
+        directions.add(Directions.DOWN);
+        directions.add(Directions.LEFT);
+
+        // Avoid moving to walls
+        if (location.getPosition().getX() == 0) {
+            // call remove​(Object o) method in ArrayList
+            directions.remove((Object) Directions.UP);
+        }
+        if (location.getPosition().getX() == world.locations.length - 1) {
+            directions.remove((Object) Directions.DOWN);
+        }
+        if (location.getPosition().getY() == 0) {
+            directions.remove((Object) Directions.LEFT);
+        }
+        if (location.getPosition().getY() == world.locations[0].length - 1) {
+            directions.remove((Object) Directions.RIGHT);
+        }
+        
+        int rnd = new Random().nextInt(directions.size());
+        // Cast back to int
+        move((int)directions.get(rnd));
+
+    }
+
+
     /**
      * sets a player's current location
      *
@@ -168,6 +264,7 @@ public class Player {
     public void setLocation(Location location) {
         this.location = location;
     }
+
 
     /**
      * Setter for a player's health
@@ -180,11 +277,12 @@ public class Player {
         System.out.println(this + " health changed from " + oldHealth + " to " + health);
     }
 
+
     /**
      * Setter for a player's knowledge
      */
-    public void setKnowledge(Set<Location> knowledge) {
-        this.knowledge =  knowledge;
+    public void setKnowledge(List<Location> knowledge) {
+        this.knowledge = knowledge;
     }
 
 
@@ -221,6 +319,7 @@ public class Player {
 
     }
 
+
     /**
      * ask for help when they need it
      */
@@ -232,6 +331,7 @@ public class Player {
     public String toString() {
         return name;
     }
+
 
     /**
      * Two players are the same if they have the same name, location and health.
@@ -247,6 +347,4 @@ public class Player {
             return false;
         }
     }
-
-
 }

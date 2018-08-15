@@ -1,9 +1,8 @@
 import java.util.List;
-import java.util.Set;
 
 public class PitFinder extends Player {
 
-    public PitFinder(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
+    public PitFinder(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, List<Location> knowledge) {
         super(w, name, location, peaches, health, rgb, knowledge);
     }
 
