@@ -98,6 +98,7 @@ public class SmartyPants extends Player {
     @Override
     public void interact(Player p) {
         System.out.println(this.toString() + " will now interact with " + p.toString());
+        System.out.println();
         int count = 0;
         if (p instanceof PeachHunter) {
             if (p.peaches.size() >= 7) {
@@ -109,12 +110,14 @@ public class SmartyPants extends Player {
 
                 System.out.println(p.toString() + " now has " + p.numberOfPeaches() + " peaches.");
                 System.out.println(this.toString() + " now has " + this.numberOfPeaches() + " peaches.");
+                System.out.println();
 
                 List<Location> smartyKnowledge = this.getSubList("PeachGrove");
                 List<Location> otherKnowledge = p.getKnowledge();
 
                 if (smartyKnowledge.isEmpty()) {
                     System.out.println("SmartyPants does not know any PeachGroves, but won't give back peaches");
+                    System.out.println();
                 }
 
                 //iterate peachgrove HashSet and exchange info.
@@ -123,14 +126,17 @@ public class SmartyPants extends Player {
                         otherKnowledge.add(location);
                         p.setKnowledge(otherKnowledge);
                         System.out.println(location.toString() + " location exchanged with PeachHunter!");
+                        System.out.println();
                         break;
                     } else {
                         System.out.println("PeachHunter already knows all the locations that SmartyPants knows");
                         System.out.println("But the greedy SmartyPants will not give back the peaches");
+                        System.out.println();
                     }
                 }
             }else{
                 System.out.println("No transaction made! PeachHunter did not have enough peaches");
+                System.out.println();
             }
 
 
@@ -144,6 +150,7 @@ public class SmartyPants extends Player {
 
                 System.out.println(p.toString() + " now has " + p.numberOfPeaches() + " peaches.");
                 System.out.println(this.toString() + " now has " + this.numberOfPeaches() + " peaches.");
+                System.out.println();
 
 
                 //Merge PeachPit HashSet and BearsDen HashSet
@@ -155,6 +162,7 @@ public class SmartyPants extends Player {
 
                 if (smartyKnowledge.isEmpty()) {
                     System.out.println("SmartyPants does not know any PeachPit or BearsDen, but won't give back peaches");
+                    System.out.println();
                 }
 
                 //iterate merged HashSet and exchange info.
@@ -163,15 +171,18 @@ public class SmartyPants extends Player {
                         otherKnowledge.add(location);
                         p.setKnowledge(otherKnowledge);
                         System.out.println(location.toString() + " location exchanged with PitFinder!");
+                        System.out.println();
                         break;
                     } else {
                         System.out.println("PitFinder already knows all the locations that SmartyPants knows");
                         System.out.println("But the greedy SmartyPants will not give back the peaches");
+                        System.out.println();
                     }
                 }
 
             }else{
                 System.out.println("No transaction made! PitFinder did not have enough peaches");
+                System.out.println();
             }
 
         } else if (p.name == "PeachThief") {
