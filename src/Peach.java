@@ -23,14 +23,7 @@ public class Peach implements Comparable<Peach> {
 
     @Override
     public String toString() {
-        if (bad) {
-            return "\uD83E\uDD22(" + ripeness + ")";
-        } else {
-            return "\uD83C\uDF51(" + ripeness + ")";
-        }
-
-
-
+        return ripeness + "(" + bad + ")";
     }
 
     @Override

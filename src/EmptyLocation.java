@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class EmptyLocation extends Location {
     // Constructs an EmptyLocation
-    public EmptyLocation(Position p) {
-        super(p, "Empty", new ArrayList<Player>(), new ArrayList<Peach>());
+    public EmptyLocation(Position p, String description) {
+        super(p, description, new ArrayList<Player>(), new ArrayList<Peach>());
     }
 
     /**

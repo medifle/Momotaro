@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,14 +17,11 @@ public class Player {
     protected int health;   // health of player
     protected RGB colour;   // colour of player (if graphics is used)
     protected List<Location> knowledge; // locations remembered by player
-    protected Location lastLocation; // last location just left
-    protected int helpCoolDown; // help cooldown set to 3 by default
-    protected int speed; // speed set to 1 by default
 
     /**
      * Creates a player in the game
      *
-     * @param w    is the world that the player lives in
+     * @param w        is the world that the player lives in
      * @param name     is the name of the player
      * @param location is where in the world the player is
      * @param peaches  is a list of peaches the player starts with
@@ -37,13 +33,10 @@ public class Player {
         this.name = name;
         this.location = location;
         location.getPlayers().add(this); // Make sure player can be born in Home
-        w.addPlayer(this); // add Player to World
         this.peaches = peaches;
         this.health = health;
         this.colour = rgb;
         this.knowledge = knowledge;
-        this.helpCoolDown = 0;
-        this.speed = 1;
     }
 
     /**
@@ -75,6 +68,7 @@ public class Player {
         return knowledge;
     }
 
+
     /**
      * Getter for a player's health
      */
@@ -86,10 +80,10 @@ public class Player {
         System.out.println(getName() + " (HP:" + health + ")");
     }
 
-    /**
-     * * Getter for a player's peach
-     */
 
+    /**
+     * Getter for a player's peach
+     */
     public Peach getPeach() {
         return numberOfPeaches() == 0 ? null : peaches.remove(0);
     }
@@ -99,10 +93,8 @@ public class Player {
     }
 
     protected void showPeaches() {
-        System.out.println(this + "'s peaches: " + this.peaches);
+        System.out.println(this.peaches);
     }
-
-
 
     /**
      * This is the logic of the player.
@@ -113,22 +105,16 @@ public class Player {
         if (health < 30) {
             eatPeach();
         }
-        // CoolDown for getHelp() is 2
         if (health < 10) {
-            if (helpCoolDown == 0) {
-                System.out.println("callForHelp cooldown refreshed");
-                getHelp();
-                helpCoolDown = 2;
-            } else {
-                helpCoolDown -= 1;
-                System.out.println("callForHelp cooling, " + helpCoolDown + " turns left");
-            }
+            getHelp();
         }
     }
+
 
     protected void isDead() {
         if (health <= 0) {
             location.exit(this, false);
+            world.getHome().enter(this, false);
             health = 100;
             System.out.println("\uD83D\uDC80" + this + " is dead, reborn from " + world.getHome());
         }
@@ -146,7 +132,7 @@ public class Player {
             System.out.println(this + " ate a peach...");
             if (!peachToEat.bad) {
                 health += peachToEat.ripeness;
-                System.out.println("\uD83D\uDE00" + this + " restore " + peachToEat.ripeness + " health");
+                System.out.println(this + " restore " + peachToEat.ripeness + " health \uD83D\uDE00");
             } else {
                 if (peachToEat.ripeness > health) {
                     System.out.println("\uD83D\uDC94Bad peach! " + this + " lost last " + health + " health");
@@ -169,7 +155,6 @@ public class Player {
      * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
-        lastLocation = location;
         return world.move(this, direction);
     }
 
@@ -180,35 +165,6 @@ public class Player {
      * @param targetLocation the target location the player wanna move to
      */
     protected void moveToTarget(Location targetLocation) {
-        moveToTarget(targetLocation, 1);
-    }
-
-    protected void moveToTarget(Location targetLocation, int speed) {
-        for (int i = 0; i < speed; i++) {
-            moveToTarget(targetLocation, null);
-        }
-    }
-
-    // TODO: recursive method to take a detour to avoid Grove or Pit or Den
-
-    /**
-     * Move to the target location
-     *
-     * @param target the player who called for help
-     */
-    protected void moveToTarget(Player target) {
-        moveToTarget(target, 1);
-    }
-
-    protected void moveToTarget(Player target, int speed) {
-        for (int i = 0; i < speed; i++) {
-            moveToTarget(target.getLocation(), speed);
-        }
-    }
-
-
-    // Avoid certain places like Grove, Pit, Den (junior smart level)
-    protected void moveToTarget(Location targetLocation, List<Location> dangers) {
         int target_X = targetLocation.getPosition().getX();
         int target_Y = targetLocation.getPosition().getY();
         int player_X = location.getPosition().getX();
@@ -228,27 +184,30 @@ public class Player {
             direction_Y = Directions.RIGHT;
         }
 
-        // Add available directions for randomly choosing
-        ArrayList<Object> directions = new ArrayList<>();
+        // Choose randomly from available directions
+        ArrayList<Integer> directions = new ArrayList<>();
         if (direction_X != -1) {
             directions.add(direction_X);
         }
         if (direction_Y != -1) {
             directions.add(direction_Y);
         }
-
         // If player has not reached the target location, move to the target
         if (directions.size() != 0) {
-            // if available directions contains a danger place, remove the direction
-            if (dangers != null) {
-                avoidDangers(directions, dangers);
-            }
-
-            // Randomly choose a direction
             int rnd = new Random().nextInt(directions.size());
-            move((int) directions.get(rnd));
+            move(directions.get(rnd));
         }
     }
+
+    /**
+     * Move to the target location
+     *
+     * @param target the player who called for help
+     */
+    protected void moveToTarget(Player target) {
+        moveToTarget(target.getLocation());
+    }
+
 
     /**
      * Go back Home
@@ -257,48 +216,8 @@ public class Player {
         moveToTarget(world.getHome());
     }
 
-    protected void backHome(int speed) {
-        moveToTarget(world.getHome(), speed);
-    }
-
-    protected void backHome(List<Location> dangers) {
-        moveToTarget(world.getHome(), dangers);
-    }
-
-
-    protected void avoidDangers(List<Object> directions, List<Location> dangers) {
-        if (directions.size() > 1) {
-            // Remove randomly
-            World.shuffleItem(directions);
-            // Use iterator to avoid ConcurrentModificationException(remove item in a foreach loop)
-            for (Iterator<Object> iterator = directions.iterator(); iterator.hasNext(); ) {
-                Object dir = iterator.next();
-                Location newLocation = world.getNewLocation(location, (int) dir);
-                if (directions.size() > 1) {
-                    for (Location danger : dangers) {
-                        // Remove direction to a danger
-                        // But at least one direction is kept
-                        if (danger == newLocation) {
-                            iterator.remove();
-                            System.out.println(this + ": Decided not to enter a dangerous place: " + danger);
-                            break;
-                        }
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-    }
 
     protected void moveRandom() {
-        moveRandom(null);
-    }
-
-    /**
-     * Moves randomly(junior smart level)
-     */
-    protected void moveRandom(List<Location> dangers) {
         // Cast to Object type for easier remove
         ArrayList<Object> directions = new ArrayList<>();
         directions.add(Directions.UP);
@@ -320,29 +239,11 @@ public class Player {
         if (location.getPosition().getY() == world.locations[0].length - 1) {
             directions.remove((Object) Directions.RIGHT);
         }
-
-        // If player has at least two available directions
-        if (directions.size() > 1) {
-            // remove the direction to the lastLocation
-            for (Object dir : directions) {
-                Location newLocation = world.getNewLocation(location, (int) dir);
-                if (newLocation == lastLocation) {
-                    directions.remove(dir);
-//                    System.out.println(this + ": does not want to go back even in wandering");
-                    break;
-                }
-            }
-        }
-
-        // Avoid dangers
-        if (dangers != null) {
-            avoidDangers(directions, dangers);
-        }
-
-
+        
         int rnd = new Random().nextInt(directions.size());
         // Cast back to int
-        move((int) directions.get(rnd));
+        move((int)directions.get(rnd));
+
     }
 
 
@@ -363,7 +264,7 @@ public class Player {
      */
     public void setHealth(int h) {
         int oldHealth = health;
-        this.health = h;
+        health = h;
         System.out.println(this + " health changed from " + oldHealth + " to " + health);
     }
 
@@ -387,54 +288,17 @@ public class Player {
     }
 
 
-    protected boolean pickPeach() {
-        return pickPeach(true);
-    }
-
     // Pick a peach from location
-    protected boolean pickPeach(boolean msg) {
+    protected boolean pickPeach() {
         if (location.numberOfPeaches() > 0) {
             boolean result = peaches.add(location.getPeach());
-            if (msg) {
-                System.out.println(this + " picked a peach from " + location + ": " + result);
-            }
+            System.out.println(this + " picked a peach from " + location + ": " + result);
             return result;
         } else {
-            if (msg) {
-                System.out.println(this.location + ": Not enough peaches!");
-            }
+            System.out.println(this.location + ": not enough peaches!");
             return false;
         }
     }
-
-
-    // Pick peaches from location
-    protected void pickPeaches(int num) {
-        if (location.numberOfPeaches() > 0) {
-            int oriNum = num;
-            while (num > 0) {
-                boolean result = pickPeach(false);
-                if (!result) {
-                    break;
-                }
-                num -= 1;
-            }
-            int count = (oriNum - num);
-            if (count > 1) {
-                System.out.println(this + " picked " + count + " peaches from " + location);
-            } else {
-                System.out.println(this + " picked " + count + " peach from " + location);
-            }
-        }
-    }
-
-//    protected void pickPeaches(int num, List<Location> locations) {
-//        for (Location loc : locations) {
-//            if (location.getClass().equals(loc.getClass())) {
-//
-//            }
-//        }
-//    }
 
 
     /**
@@ -445,7 +309,6 @@ public class Player {
      */
     public void interact(Player p) {
         // allows for some interaction with a player
-
     }
 
 
