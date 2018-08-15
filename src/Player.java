@@ -95,13 +95,6 @@ public class Player {
     protected void showPeaches() {
         System.out.println(this.peaches);
     }
-    /**
-     * Getter for a player's knowledge
-     */
-
-    public Set<Location> getKnowledge() {
-        return knowledge;
-    }
 
 
 
