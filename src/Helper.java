@@ -10,6 +10,7 @@ public class Helper extends Player {
         super(world, "Helper", world.getHome(), peaches, 100, RGB.GREEN, new ArrayList<>());
         this.target = target;
         this.targetLocation = targetLocation;
+        this.speed = 2; // helper moves 2 steps in one turn
     }
 
     @Override
@@ -21,11 +22,11 @@ public class Helper extends Player {
         }
         // If Helper has not help target out
         if (!hasHelped) {
-            moveToTarget(target);
+            moveToTarget(target, speed);
             interact(target);
             // After help, go back Home
         } else {
-            backHome();
+            backHome(speed);
         }
 
     }
