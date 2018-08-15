@@ -41,15 +41,12 @@ public class World {
     protected void genGrove(int x, int y, int numGood, int numBad, int ripeness, boolean isShuffle) {
         PeachGrove Grove = new PeachGrove(new Position(x, y), new ArrayList<Player>(), new ArrayList<Peach>());
         locations[x][y] = Grove;
-        for (int i = 0; i < numGood; i++) {
-            Grove.addPeach(new Peach(ripeness));
-        }
         for (int i = 0; i < numBad; i++) {
             Grove.addPeach(new Peach(ripeness, true));
         }
-//        for (int i = 0; i < numGood; i++) {
-//            Grove.addPeach(new Peach(ripeness));
-//        }
+        for (int i = 0; i < numGood; i++) {
+            Grove.addPeach(new Peach(ripeness));
+        }
         if (isShuffle) {
             World.shuffleItem(Grove.peachesAtLocation);
         }
