@@ -1,68 +1,68 @@
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Set;
 import java.util.List;
 
 public class PeachHunter extends Player {
-    protected int peachCapacity;
-    protected List<Peach> peachesAtLocation = null;
 
-    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, List<Location> knowledge) {
+    public PeachHunter(World w, String name, Location location, List<Peach> peaches, int health, RGB rgb, Set<Location> knowledge) {
         super(w, name, location, peaches, health, rgb, knowledge);
-        this.peachCapacity = 100;
     }
 
     @Override
     public void play() {
         super.play();
         // TODO: Call move method
-        if (knowledge.size() > 0) {
-//            moveToTarget(knowledge.);
-        }
 
         // Remember or forget PeachGrove location
         updatePeachGrove();
     }
 
+    protected void moveToTarget(Location targetLocation) {
+        int target_X = targetLocation.getPosition().getX();
+        int target_Y = targetLocation.getPosition().getY();
+        int helper_X = location.getPosition().getX();
+        int helper_Y = location.getPosition().getY();
 
-    // adding peaches to the current location
-    public void addPeach(Peach p) {
-        peachesAtLocation.add(p);
-    }
+        // Get available directions to get to target
+        int direction_X = -1;
+        int direction_Y = -1;
+        if ((target_X - helper_X) < 0) {
+            direction_X = Directions.UP;
+        } else if ((target_X - helper_X) > 0) {
+            direction_X = Directions.DOWN;
+        }
+        if ((target_Y - helper_Y) < 0) {
+            direction_Y = Directions.LEFT;
+        } else if ((target_Y - helper_Y) > 0) {
+            direction_Y = Directions.RIGHT;
+        }
 
-    // getter for peaches
-    public Peach getPeach() {
-        return peachesAtLocation.remove(0);
-    }
-
-    // once peach hunter has 50 or more peaches return home and deposit peaches
-    protected void returnHome(Player p) {
-        while (p.numberOfPeaches() > 0) {
-            if (p instanceof PeachHunter && p.getHealth() > 0 && p.numberOfPeaches() > 0) {
-                if (peaches.size() > 50) {
-                    addPeach(p.getPeach());
-                }
-                System.out.println(p.getName() + " deposited all the peaches");
-            }
+        // Choose randomly from available directions
+        ArrayList<Integer> directions = new ArrayList<>();
+        if (direction_X != -1) {
+            directions.add(direction_X);
+            play();
+        }
+        if (direction_Y != -1) {
+            directions.add(direction_Y);
+            play();
+        }
+        // If helper has not reached the target location, move to the target
+        if (directions.size() != 0) {
+            int rnd = new Random().nextInt(directions.size());
+            move(directions.get(rnd));
+            play();
         }
     }
 
-    // if a hunter's health is below 50 then it can only carry 25 peaches
-    protected void carryPeaches(Player p) {
-        int count = 0;
-        for (Player player : location.getPlayers()) {
-            if (health < 50) {
-                while (this.numberOfPeaches() < 0) {
-                    player.receivePeach(this);
-                    count += 1;
-                }
-                if (count == 25) {
-                    player.receivePeach(this);
-                    break;
-                }
-            }
+    protected void returnHome(){
+        if(peaches.size() > 50){
+            backHome();
         }
     }
 
 
-    // remembering where peach groves are
     protected void updatePeachGrove() {
         if (location instanceof PeachGrove) {
             if (location.numberOfPeaches() > 0) {
