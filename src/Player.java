@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class Player {
     /**
      * Creates a player in the game
      *
-     * @param w        is the world that the player lives in
+     * @param w    is the world that the player lives in
      * @param name     is the name of the player
      * @param location is where in the world the player is
      * @param peaches  is a list of peaches the player starts with
@@ -68,7 +69,6 @@ public class Player {
         return knowledge;
     }
 
-
     /**
      * Getter for a player's health
      */
@@ -80,10 +80,10 @@ public class Player {
         System.out.println(getName() + " (HP:" + health + ")");
     }
 
-
     /**
-     * Getter for a player's peach
+     * * Getter for a player's peach
      */
+
     public Peach getPeach() {
         return numberOfPeaches() == 0 ? null : peaches.remove(0);
     }
@@ -95,6 +95,8 @@ public class Player {
     protected void showPeaches() {
         System.out.println(this.peaches);
     }
+
+
 
     /**
      * This is the logic of the player.
@@ -110,11 +112,9 @@ public class Player {
         }
     }
 
-
     protected void isDead() {
         if (health <= 0) {
             location.exit(this, false);
-            world.getHome().enter(this, false);
             health = 100;
             System.out.println("\uD83D\uDC80" + this + " is dead, reborn from " + world.getHome());
         }
@@ -155,7 +155,9 @@ public class Player {
      * @return true if the move was successful and false otherwise
      */
     public boolean move(int direction) {
-        return world.move(this, direction);
+        // move from current location to new location (if possible)
+        world.move(this, direction);
+        return false;
     }
 
 
@@ -264,7 +266,7 @@ public class Player {
      */
     public void setHealth(int h) {
         int oldHealth = health;
-        health = h;
+        this.health = h;
         System.out.println(this + " health changed from " + oldHealth + " to " + health);
     }
 
@@ -299,8 +301,6 @@ public class Player {
             return false;
         }
     }
-
-
     /**
      * Allows for interaction with this player and another player
      * (presumably called from within the play method)
@@ -309,6 +309,7 @@ public class Player {
      */
     public void interact(Player p) {
         // allows for some interaction with a player
+
     }
 
 
