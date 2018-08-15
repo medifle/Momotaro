@@ -17,7 +17,7 @@ public class BearsDen extends Location {
 
         // 2) player gives 2 peaches
         //check if the person is in the list of people who gave peaches previously
-        if (!(peopleGavePeaches.contains(p))) {
+        if (!(peopleGavePeaches.contains(p)) && !(p instanceof Helper)) {
             //if person doesn't have two peaches, then automatically deduct 25pts.
             if (p.peaches.size() < 2) {
                 System.out.println("Player did not give 2 peaches. The bear will attack!");
