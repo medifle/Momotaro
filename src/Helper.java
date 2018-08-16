@@ -10,7 +10,7 @@ public class Helper extends Player {
         super(world, "Helper" + ((Home) world.getHome()).helperCounts, world.getHome(), peaches, 100, RGB.GREEN, new ArrayList<>());
         this.target = target;
         this.targetLocation = targetLocation;
-        this.speed = 1; // helper moves 2 steps in one turn
+        this.speed = 2; // helper moves 2 steps in one turn
     }
 
     @Override
@@ -26,7 +26,10 @@ public class Helper extends Player {
             interact(target);
             // After help, go back Home
         } else {
-            backHome(speed);
+            if (this.location != world.getHome()) {
+                System.out.println("Going back...");
+                backHome(speed);
+            }
         }
 
     }

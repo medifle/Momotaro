@@ -202,9 +202,7 @@ public class Player {
     }
 
     protected void moveToTarget(Player target, int speed) {
-        for (int i = 0; i < speed; i++) {
-            moveToTarget(target.getLocation(), speed);
-        }
+        moveToTarget(target.getLocation(), speed);
     }
 
 

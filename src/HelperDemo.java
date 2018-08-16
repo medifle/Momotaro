@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class HelperDemo {
     public static void main(String[] args) {
@@ -15,7 +16,6 @@ public class HelperDemo {
         System.out.println("");
 
         System.out.println("====================================== World 01 Initializing ======================================");
-//        System.out.println("");
 
         World w = new World(5, 5);
         PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new ArrayList<>());
@@ -48,10 +48,10 @@ public class HelperDemo {
         peachHunter.play();
         System.out.println("");
 
-        Player helper = ((Home) w.getHome()).selectHelper();
+        Player helper1 = ((Home) w.getHome()).selectHelper();
         try {
-            System.out.println("====================================== " + helper + "'s TURN" + " ======================================");
-            helper.play();
+            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
+            helper1.play();
             System.out.println("");
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -64,17 +64,23 @@ public class HelperDemo {
             System.out.println("");
         }
 
+        Player helper2 = ((Home) w.getHome()).selectHelper();
 
-        // Helper should go towards home from now
-        for (int i = 0; i < 5; i++) {
-            System.out.println("====================================== " + helper + "'s TURN" + " ======================================");
-            helper.play();
+        for (int i = 0; i < 10; i++) {
+            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
+            helper1.play();
+            System.out.println("");
+            System.out.println("====================================== " + helper2 + "'s TURN" + " ======================================");
+            helper2.play();
+            System.out.println("");
+            System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
+            peachHunter.play();
             System.out.println("");
         }
 
         System.out.println("===================================== " + "Game Statistics" + " =====================================");
-        System.out.println("Helper's location: " + helper.getLocation());
-        helper.showPeaches();
+        helper1.showPeaches();
+        helper2.showPeaches();
         System.out.println("Home's players: " + w.getHome().getPlayers());
         System.out.println("World's players: " + w.getPlayers());
         System.out.println("Home's peaches: " + w.getHome().numberOfPeaches());
