@@ -1,44 +1,67 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class PeachesGame {
     public static void main(String[] args) {
-        World w = new World();
-        Player p = new Player(w, "cat", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new ArrayList<>());
-        Player q = new Player(w, "dog", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new ArrayList<>());
-        w.addPlayer(p).addPlayer(q);
 
-        System.out.println("Home : " + w.getHome());
-        System.out.println("  Players at Home : " + w.getHome().getPlayers());
-        System.out.println("Location of all players in world");
-        for (Player pp : w.getPlayers()) {
-            System.out.println(pp.getLocation());
-            System.out.println(pp.getLocation().getPlayers());
-        }
-
-        System.out.println("Move some players in world");
-        p.move(Directions.DOWN);
-        q.move(Directions.RIGHT);
-        System.out.println("Location of all players in world");
-
-        for (Player pp : w.getPlayers()) {
-            System.out.println(pp.getLocation());
-            System.out.println(pp.getLocation().getPlayers());
-        }
+        System.out.println("______  _____   ___   _____  _   _  _____  _____      ___  ______  _   _  _____  _   _  _____  _   _ ______  _____ ");
+        System.out.println("| ___ \\|  ___| / _ \\ /  __ \\| | | ||  ___|/  ___|    / _ \\ |  _  \\| | | ||  ___|| \\ | ||_   _|| | | || ___ \\|  ___|");
+        System.out.println("| |_/ /| |__  / /_\\ \\| /  \\/| |_| || |__  \\ `--.    / /_\\ \\| | | || | | || |__  |  \\| |  | |  | | | || |_/ /| |__  ");
+        System.out.println("|  __/ |  __| |  _  || |    |  _  ||  __|  `--. \\   |  _  || | | || | | ||  __| | . ` |  | |  | | | ||    / |  __| ");
+        System.out.println("| |    | |___ | | | || \\__/\\| | | || |___ /\\__/ /   | | | || |/ / \\ \\_/ /| |___ | |\\  |  | |  | |_| || |\\ \\ | |___ ");
+        System.out.println("\\_|    \\____/ \\_| |_/ \\____/\\_| |_/\\____/ \\____/    \\_| |_/|___/   \\___/ \\____/ \\_| \\_/  \\_/   \\___/ \\_| \\_|\\____/ ");
+        System.out.println("                                                                                                                   ");
 
 
-        // what the game might look like...
-        while (w.getHome().numberOfPeaches() <= 100) {
-            // iterate over all locations in the world
-            for (Location location : w.getLocations()) {
-                // iterate over all players in the current location
-                for (Player player : location.getPlayers()) {
-                    System.out.println(player.getName() + ", " + player.getLocation());
-                    player.play();
-                }
+        World w = new World(4, 4);
+        PeachHunter peachHunter = new PeachHunter(w, "PeachHunter", w.getHome(), new ArrayList<Peach>(), 100, RGB.BLUE, new ArrayList<>());
+//        PitFinder pitFinder = new PitFinder(w, "PitFinder", w.getHome(), new ArrayList<Peach>(), 50, RGB.YELLOW, new ArrayList<>());
+
+
+//        PeachPit testPit = new PeachPit(new Position(1, 1), new ArrayList<Player>(), new ArrayList<Peach>());
+//        for (int i = 0; i < 10; i++) {
+//            testPit.addPeach(new Peach(5));
+//        }
+
+        w.genGrove(3, 2, 180, 10, 9, true);
+        w.genGrove(1, 2, 180, 3, 6, true);
+        w.genGrove(2, 1, 180, 3, 7, true);
+        w.genGrove(1, 0, 30, 30, 5, true);
+
+
+        // Game Start
+        while (w.getHome().numberOfPeaches() <= 400) {
+            for (Player player : w.getPlayers()) {
+                System.out.println("====================================== " + player + "'s TURN" + " ======================================");
+                System.out.println("");
+                player.play();
+                System.out.println("");
             }
-
         }
+
+        System.out.println("");
+        System.out.println("▒█▀▄▀█ ▀█▀ ▒█▀▀▀█ ▒█▀▀▀█ ▀█▀ ▒█▀▀▀█ ▒█▄░▒█ 　 ▒█▀▀█ ▒█▀▀▀█ ▒█▀▄▀█ ▒█▀▀█ ▒█░░░ ▒█▀▀▀ ▀▀█▀▀ ▒█▀▀▀ ");
+        System.out.println("▒█▒█▒█ ▒█░ ░▀▀▀▄▄ ░▀▀▀▄▄ ▒█░ ▒█░░▒█ ▒█▒█▒█ 　 ▒█░░░ ▒█░░▒█ ▒█▒█▒█ ▒█▄▄█ ▒█░░░ ▒█▀▀▀ ░▒█░░ ▒█▀▀▀  ");
+        System.out.println("▒█░░▒█ ▄█▄ ▒█▄▄▄█ ▒█▄▄▄█ ▄█▄ ▒█▄▄▄█ ▒█░░▀█ 　 ▒█▄▄█ ▒█▄▄▄█ ▒█░░▒█ ▒█░░░ ▒█▄▄█ ▒█▄▄▄ ░▒█░░ ▒█▄▄▄   ");
+
+
+
+
+
+
+// TODO: If we add players(like a Helper), how to avoid ConcurrentModificationException?
+
+//        for (Location location : w.getLocations()) {
+////            List<Player> playersCopy = new ArrayList<>(location.getPlayers());
+//            List<Player> playersCopy = new ArrayList<>();
+//            playersCopy.addAll(location.getPlayers());
+//            // iterate over all players in the current location
+//            for (Player player : playersCopy) {
+//                System.out.println(player + ", " + player.getLocation());
+////                player.play();
+//                player.move(Directions.DOWN);
+//                player.move(Directions.RIGHT);
+//            }
+//        }
 
     }
 }
