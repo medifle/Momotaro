@@ -43,44 +43,50 @@ public class HelperDemo {
         }
         System.out.println("Home's peaches: " + w.getHome().numberOfPeaches());
 
-
-        System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
-        peachHunter.play();
-        System.out.println("");
-
-        Player helper1 = ((Home) w.getHome()).selectHelper();
-        try {
-            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
-            helper1.play();
-            System.out.println("");
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            System.out.println("Helper does not exist.");
+        for (int n = 0; n < 10; n++) {
+            for (int i = 0; i < w.getPlayers().size(); i++) {
+                System.out.println("====================================== " + w.getPlayers().get(i) + "'s TURN" + " ======================================");
+                System.out.println("");
+                w.getPlayers().get(i).play();
+                System.out.println("");
+            }
         }
 
-        for (int i = 0; i < 3; i++) {
-            System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
-            peachHunter.play();
-            System.out.println("");
-        }
-
-        Player helper2 = ((Home) w.getHome()).selectHelper();
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
-            helper1.play();
-            System.out.println("");
-            System.out.println("====================================== " + helper2 + "'s TURN" + " ======================================");
-            helper2.play();
-            System.out.println("");
-            System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
-            peachHunter.play();
-            System.out.println("");
-        }
+//        System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
+//        peachHunter.play();
+//        System.out.println("");
+//
+//        Player helper1 = ((Home) w.getHome()).selectHelper();
+//        try {
+//            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
+//            helper1.play();
+//            System.out.println("");
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//            System.out.println("Helper does not exist.");
+//        }
+//
+//        for (int i = 0; i < 3; i++) {
+//            System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
+//            peachHunter.play();
+//            System.out.println("");
+//        }
+//
+//        Player helper2 = ((Home) w.getHome()).selectHelper();
+//
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println("====================================== " + helper1 + "'s TURN" + " ======================================");
+//            helper1.play();
+//            System.out.println("");
+//            System.out.println("====================================== " + helper2 + "'s TURN" + " ======================================");
+//            helper2.play();
+//            System.out.println("");
+//            System.out.println("====================================== " + peachHunter + "'s TURN" + " ======================================");
+//            peachHunter.play();
+//            System.out.println("");
+//        }
 
         System.out.println("===================================== " + "Game Statistics" + " =====================================");
-        helper1.showPeaches();
-        helper2.showPeaches();
         System.out.println("Home's players: " + w.getHome().getPlayers());
         System.out.println("World's players: " + w.getPlayers());
         System.out.println("Home's peaches: " + w.getHome().numberOfPeaches());
